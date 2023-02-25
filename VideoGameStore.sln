@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoGameStore", "eTickets\VideoGameStore.csproj", "{1BC95461-FD37-432B-9A1D-600F120C846F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoGameStore.Tests", "eTickets.Tests\VideoGameStore.Tests.csproj", "{0A2895DE-9A4E-4905-9BBC-C1F0D6B434B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BC95461-FD37-432B-9A1D-600F120C846F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BC95461-FD37-432B-9A1D-600F120C846F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BC95461-FD37-432B-9A1D-600F120C846F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BC95461-FD37-432B-9A1D-600F120C846F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A2895DE-9A4E-4905-9BBC-C1F0D6B434B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A2895DE-9A4E-4905-9BBC-C1F0D6B434B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A2895DE-9A4E-4905-9BBC-C1F0D6B434B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A2895DE-9A4E-4905-9BBC-C1F0D6B434B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE743C6E-5082-4F64-9147-38144B06FABF}
+	EndGlobalSection
+EndGlobal
