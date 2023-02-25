@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\eTickets\VideoGameStore.csproj" />
+    <ProjectReference Include="..\VideoGameStore\VideoGameStore.csproj" />
   </ItemGroup>
 
 </Project>
