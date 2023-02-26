@@ -2,6 +2,8 @@
     ViewData["Title"] = "List of video games";
 }
 
+@Html.Partial("_FeaturedGames.cshtml")
+
 @Html.Partial("_VideoGameCards.cshtml")
 
 @await Html.PartialAsync("_CreateItem", "VideoGames")

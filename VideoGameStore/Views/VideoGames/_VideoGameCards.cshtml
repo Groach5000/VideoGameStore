@@ -2,7 +2,7 @@
 @model IEnumerable<VideoGame>
 
 
-<div class="container">
+<div class="card-container">
     <div class="row">
         <div class="col">
             <div class="card-group">
@@ -50,8 +50,7 @@
                                             if (value == item.GameAgeRating)
                                             {
                                                 var description = EnumHelper<GameAgeRating>.GetDisplayValue(value);
-                                                @Html.DisplayFor(e => description )
-                                                ;
+                                                @Html.DisplayFor(e => description );
                                             }
                                         }
                                     </p>

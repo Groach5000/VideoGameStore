@@ -1,0 +1,65 @@
+﻿@using VideoGameStore.Data.Enums;
+@model VideoGame
+
+
+<div class="video-game-element">
+    <img src="@Model.ImageURL"
+    alt="">
+</div>
+<div class="col-md-12">
+    <div class="col-md-12">
+        <div class="card-header text-white bg-info">
+            <p class="card-text">
+                <h3 class="card-title">
+            @Model.Title
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil-square"></i></a>
+                    }
+                </h3>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card-body">
+            <p class="card-text">
+        @if (Model.Description.Length > 100)
+                {
+                    @(Model.Description.Substring(0, 100) + "...");
+                }
+                else
+                {
+                    @Model.Description;
+                }
+            </p>
+            <p class="card-text"><b>Genre: </b>@Model.GameGenre</p>
+            <p class="card-text">
+                <b>Age Rating: </b>
+                @*Using the EnumHelper Class to show the display name of the age rating instead
+                of the enum value.*@
+                @foreach (var value in @EnumHelper<GameAgeRating>.GetValues(GameAgeRating.RP))
+                {
+                    if (value == Model.GameAgeRating)
+                    {
+                        var description = EnumHelper<GameAgeRating>.GetDisplayValue(value);
+                        @Html.DisplayFor(e => description )
+                        ;
+                    }
+                }
+            </p>
+            <p class="card-text"><b>Release Date: </b>@Model.ReleaseDate.ToString("dd MMM yy")</p>
+            <p class="card-text ">
+                <b>Status: </b>
+                @if (DateTime.Now >= Model.ReleaseDate)
+                {
+                    <span class="badge bg-success text-white">AVAILABLE</span>
+                }
+                else
+                {
+                    <span class="badge bg-primary text-white">UPCOMING</span>
+                }
+            </p>
+        </div>
+    </div>
+</div>
+
