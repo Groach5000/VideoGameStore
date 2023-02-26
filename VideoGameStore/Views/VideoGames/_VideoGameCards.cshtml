@@ -1,0 +1,94 @@
+﻿@using VideoGameStore.Data.Enums;
+@model IEnumerable<VideoGame>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card-group">
+                @foreach (var item in Model)
+                {
+                    <div class="card mb-3" style="min-width: 370px;">
+                        <div class="row g-4">
+                            <div class="col-md-12">
+                                <div class="card-header text-white bg-info">
+                                    <p class="card-text">
+                                        <h3 class="card-title">
+                                            @item.Title
+                                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                            {
+                                                <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                            }
+                                        </h3>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="@item.ImageURL" width="100%" alt="@item.Title">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        @if (item.Description.Length > 100)
+                                        {
+                                            @(item.Description.Substring(0, 100) + "...")
+                                            ;
+                                        }
+                                        else
+                                        {
+                                            @item.Description
+                                            ;
+                                        }
+                                    </p>
+                                    <p class="card-text"><b>Genre: </b>@item.GameGenre</p>
+                                    <p class="card-text">
+                                        <b>Age Rating: </b>
+                                        @*Using the EnumHelper Class to show the display name of the age rating instead
+                                    of the enum value.*@
+                                        @foreach (var value in @EnumHelper<GameAgeRating>.GetValues(GameAgeRating.RP))
+                                        {
+                                            if (value == item.GameAgeRating)
+                                            {
+                                                var description = EnumHelper<GameAgeRating>.GetDisplayValue(value);
+                                                @Html.DisplayFor(e => description )
+                                                ;
+                                            }
+                                        }
+                                    </p>
+                                    <p class="card-text"><b>Release Date: </b>@item.ReleaseDate.ToString("dd MMM yy")</p>
+                                    <p class="card-text ">
+                                        <b>Status: </b>
+                                        @if (DateTime.Now >= item.ReleaseDate)
+                                        {
+                                            <span class="badge bg-success text-white">AVAILABLE</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-primary text-white">UPCOMING</span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card-footer ">
+                                    <p class="card-text">
+                                        <a class="btn btn-outline-info float-right" asp-action="Details" asp-route-id="@item.Id">
+                                            <i class="bi bi-eye-fill"></i> Show Details
+                                        </a>
+                                        @if (DateTime.Now >= item.ReleaseDate)
+                                        {
+                                            <a class="btn btn-success text-white" asp-controller="Orders"
+                                       asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
+                                                <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))
+                                            </a>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
