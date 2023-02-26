@@ -32,8 +32,9 @@
                                 @foreach (var item in order.OrderItems)
                                 {
                                     <li>
-                                        <div class="alert alert-info" role="alert">
-                                            <span class="badge bg-success">@item.Amount</span> [@item.Price.ToString("c")] - @item.VideoGame.Title
+                                        <div>
+                                            <span class="badge bg-light">Quantity: @item.Amount </span> [@item.Price.ToString("c")] -
+                                            <a asp-controller="VideoGames" asp-action="Details" asp-route-id="@item.VideoGame.Id"> @item.VideoGame.Title </a>
                                         </div>
                                     </li>
                                 }
