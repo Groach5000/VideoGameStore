@@ -25,7 +25,8 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="ReleaseDate" class="control-label"></label>
-                                <input asp-for="ReleaseDate" type="date" class="form-control" />
+                                <input asp-for="ReleaseDate" type="date" min="1960-01-01" max="2050-12-31" class="form-control" 
+                                 value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
                             </div>
                             <div class="form-group">

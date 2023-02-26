@@ -12,7 +12,6 @@
             <div class="card-group">
                 @foreach (var item in Model)
                 {
-                    @*       <div class="col-md-4 col-xs-6 border-primary mb-3">*@
                     <div class="card mb-3" style="min-width: 370px;">
                         <div class="row g-4">
                             <div class="col-md-12">
@@ -80,12 +79,6 @@
                                         <a class="btn btn-outline-info float-right" asp-action="Details" asp-route-id="@item.Id">
                                             <i class="bi bi-eye-fill"></i> Show Details
                                         </a>
-                                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                        {
-                                            <a class="btn btn-outline-info float-right" asp-action="Edit" asp-route-id="@item.Id">
-                                                <i class="bi bi-pencil-square"></i>Edit
-                                            </a>
-                                        }
                                         @if (DateTime.Now >= item.ReleaseDate)
                                         {
                                             <a class="btn btn-success text-white" asp-controller="Orders"
