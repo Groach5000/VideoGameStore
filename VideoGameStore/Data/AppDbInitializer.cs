@@ -18,303 +18,134 @@ namespace VideoGameStore.Data
                 context.Database.EnsureCreated();
 
                 // Add all the data if none exists:
-                //Cinema
-                if (!context.Cinemas.Any())
-                {
-                    context.Cinemas.AddRange(new List<Cinema>()
-                    {
-                        new Cinema()
-                        {
-                            Name = "Cinema 1",
-                            Logo = "http://dotnethow.net/images/cinemas/cinema-1.jpeg",
-                            Description = "This is the description of the first cinema"
-                        },
-                        new Cinema()
-                        {
-                            Name = "Cinema 2",
-                            Logo = "http://dotnethow.net/images/cinemas/cinema-2.jpeg",
-                            Description = "This is the description of the first cinema"
-                        },
-                        new Cinema()
-                        {
-                            Name = "Cinema 3",
-                            Logo = "http://dotnethow.net/images/cinemas/cinema-3.jpeg",
-                            Description = "This is the description of the first cinema"
-                        },
-                        new Cinema()
-                        {
-                            Name = "Cinema 4",
-                            Logo = "http://dotnethow.net/images/cinemas/cinema-4.jpeg",
-                            Description = "This is the description of the first cinema"
-                        },
-                        new Cinema()
-                        {
-                            Name = "Cinema 5",
-                            Logo = "http://dotnethow.net/images/cinemas/cinema-5.jpeg",
-                            Description = "This is the description of the first cinema"
-                        },
-                    });
-                }
 
-                // Actors
-                if (!context.Actors.Any())
+                // Publishers
+                if (!context.Publishers.Any())
                 {
-                    context.Actors.AddRange(new List<Actor>()
+                    context.Publishers.AddRange(new List<Publisher>()
                     {
-                        new Actor()
+                        new Publisher()
                         {
-                            FullName = "Actor 1",
-                            Bio = "This is the Bio of the first actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/actors/actor-1.jpeg"
+                            CompanyName = "Team Cherry",
+                            About = "Team Cherry, an Australian video game developer and publisher of Hollow Knight and Hollow Knight: Silksong.",
+                            LogoURL = "https://images.squarespace-cdn.com/content/v1/606d4deb4db8c15ea53b3624/c176e609-2480-47a0-ab31-536b0e423e9b/logo2.png"
 
                         },
-                        new Actor()
+                        new Publisher()
                         {
-                            FullName = "Actor 2",
-                            Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/actors/actor-2.jpeg"
+                            CompanyName = "Supergiant Games",
+                            About = "Supergiant Games is a small independent game development studio in San Francisco",
+                            LogoURL = "https://static.wikia.nocookie.net/logopedia/images/5/54/Supergiant_games_logo.png/revision/latest?cb=20210219003456"
                         },
-                        new Actor()
+                        new Publisher()
                         {
-                            FullName = "Actor 3",
-                            Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/actors/actor-3.jpeg"
+                            CompanyName = "Activision Blizzard",
+                            About = "Activision is the leading worldwide developer, publisher and distributor of interactive entertainment and products on consoles, mobile and PC.",
+                            LogoURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Activision_Blizzard.svg/2560px-Activision_Blizzard.svg.png"
                         },
-                        new Actor()
+                        new Publisher()
                         {
-                            FullName = "Actor 4",
-                            Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/actors/actor-4.jpeg"
-                        },
-                        new Actor()
-                        {
-                            FullName = "Actor 5",
-                            Bio = "This is the Bio of the second actor",
-                            ProfilePictureURL = "http://dotnethow.net/images/actors/actor-5.jpeg"
+                            CompanyName = "Blizzard Entertainment",
+                            About = "Creators of the Warcraft, Diablo, StarCraft, and Overwatch series.",
+                            LogoURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Blizzard_Entertainment_Logo_2015.svg/1200px-Blizzard_Entertainment_Logo_2015.svg.png"
                         }
                     });
                     context.SaveChanges();
                 }
 
-                //Producers
-                if (!context.Producers.Any())
+                //Developers
+                if (!context.Developers.Any())
                 {
-                    context.Producers.AddRange(new List<Producer>()
-                        {
-                            new Producer()
-                            {
-                                FullName = "Producer 1",
-                                Bio = "This is the Bio of the first actor",
-                                ProfilePictureURL = "http://dotnethow.net/images/producers/producer-1.jpeg"
-
-                            },
-                            new Producer()
-                            {
-                                FullName = "Producer 2",
-                                Bio = "This is the Bio of the second actor",
-                                ProfilePictureURL = "http://dotnethow.net/images/producers/producer-2.jpeg"
-                            },
-                            new Producer()
-                            {
-                                FullName = "Producer 3",
-                                Bio = "This is the Bio of the second actor",
-                                ProfilePictureURL = "http://dotnethow.net/images/producers/producer-3.jpeg"
-                            },
-                            new Producer()
-                            {
-                                FullName = "Producer 4",
-                                Bio = "This is the Bio of the second actor",
-                                ProfilePictureURL = "http://dotnethow.net/images/producers/producer-4.jpeg"
-                            },
-                            new Producer()
-                            {
-                                FullName = "Producer 5",
-                                Bio = "This is the Bio of the second actor",
-                                ProfilePictureURL = "http://dotnethow.net/images/producers/producer-5.jpeg"
-                            }
-                        });
-                    context.SaveChanges();
-                }
-
-                //Movies
-                if (!context.Movies.Any())
-                {
-                    context.Movies.AddRange(new List<Movie>()
-                        {
-                            new Movie()
-                            {
-                                Title = "Life",
-                                Description = "This is the Life movie description",
-                                Price = 39.50,
-                                ImageURL = "http://dotnethow.net/images/movies/movie-3.jpeg",
-                                StartDate = DateTime.Now.AddDays(-10),
-                                EndDate = DateTime.Now.AddDays(10),
-                                CinemaId = 3,
-                                ProducerId = 3,
-                                MovieCategory = MovieCategory.Documentary
-                            },
-                            new Movie()
-                            {
-                                Title = "The Shawshank Redemption",
-                                Description = "This is the Shawshank Redemption description",
-                                Price = 29.50,
-                                ImageURL = "http://dotnethow.net/images/movies/movie-1.jpeg",
-                                StartDate = DateTime.Now,
-                                EndDate = DateTime.Now.AddDays(3),
-                                CinemaId = 1,
-                                ProducerId = 1,
-                                MovieCategory = MovieCategory.Action
-                            },
-                            new Movie()
-                            {
-                                Title = "Ghost",
-                                Description = "This is the Ghost movie description",
-                                Price = 39.50,
-                                ImageURL = "http://dotnethow.net/images/movies/movie-4.jpeg",
-                                StartDate = DateTime.Now,
-                                EndDate = DateTime.Now.AddDays(7),
-                                CinemaId = 4,
-                                ProducerId = 4,
-                                MovieCategory = MovieCategory.Horror
-                            },
-                            new Movie()
-                            {
-                                Title = "Race",
-                                Description = "This is the Race movie description",
-                                Price = 39.50,
-                                ImageURL = "http://dotnethow.net/images/movies/movie-6.jpeg",
-                                StartDate = DateTime.Now.AddDays(-10),
-                                EndDate = DateTime.Now.AddDays(-5),
-                                CinemaId = 1,
-                                ProducerId = 2,
-                                MovieCategory = MovieCategory.Documentary
-                            },
-                            new Movie()
-                            {
-                                Title = "Scoob",
-                                Description = "This is the Scoob movie description",
-                                Price = 39.50,
-                                ImageURL = "http://dotnethow.net/images/movies/movie-7.jpeg",
-                                StartDate = DateTime.Now.AddDays(-10),
-                                EndDate = DateTime.Now.AddDays(-2),
-                                CinemaId = 1,
-                                ProducerId = 3,
-                                MovieCategory = MovieCategory.Animation
-                            },
-                            new Movie()
-                            {
-                                Title = "Cold Soles",
-                                Description = "This is the Cold Soles movie description",
-                                Price = 39.50,
-                                ImageURL = "http://dotnethow.net/images/movies/movie-8.jpeg",
-                                StartDate = DateTime.Now.AddDays(3),
-                                EndDate = DateTime.Now.AddDays(20),
-                                CinemaId = 1,
-                                ProducerId = 5,
-                                MovieCategory = MovieCategory.Drama
-                            }
-                        });
-                    context.SaveChanges();
-                }
-
-                //Actors_Movies
-                if (!context.Actors_Movies.Any())
-                {
-                    context.Actors_Movies.AddRange(new List<Actor_Movie>()
+                    context.Developers.AddRange(new List<Developer>()
                     {
-                        new Actor_Movie()
+                        new Developer()
                         {
-                            ActorId = 1,
-                            MovieId = 1
+                            CompanyName = "Team Cherry",
+                            About = "Team Cherry, an Australian video game developer and publisher of Hollow Knight and Hollow Knight: Silksong.",
+                            LogoURL = "https://images.squarespace-cdn.com/content/v1/606d4deb4db8c15ea53b3624/c176e609-2480-47a0-ab31-536b0e423e9b/logo2.png"
+
                         },
-                        new Actor_Movie()
+                        new Developer()
                         {
-                            ActorId = 3,
-                            MovieId = 1
+                            CompanyName = "Supergiant Games",
+                            About = "Supergiant Games is a small independent game development studio in San Francisco",
+                            LogoURL = "https://static.wikia.nocookie.net/transistor/images/5/5f/Supergiant_Games_Logo.png/revision/latest?cb=20150706054401"
+                        },
+                        new Developer()
+                        {
+                            CompanyName = "Activision Blizzard",
+                            About = "Activision is the leading worldwide developer, publisher and distributor of interactive entertainment and products on consoles, mobile and PC.",
+                            LogoURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Activision_Blizzard.svg/2560px-Activision_Blizzard.svg.png"
+                        }
+                    });
+                    context.SaveChanges();
+                }
+
+                //VideoGames
+                if (!context.VideoGames.Any())
+                {
+                    context.VideoGames.AddRange(new List<VideoGame>()
+                        {
+                            new VideoGame()
+                            {
+                                Title = "Hollow Knight",
+                                Description = "Hollow Knight is a challenging 2D action-adventure. You’ll explore twisting caverns, battle tainted creatures and escape intricate traps, all to solve an ancient long-hidden mystery.",
+                                Price = 29.99,
+                                ImageURL = "https://image.api.playstation.com/cdn/UP1822/CUSA13632_00/GuFQKWlrIVODEA1su20fCOrNZEYX5CB9.png",
+                                ReleaseDate = new DateTime(2017, 02, 23),
+                                DeveloperId = 1,
+                                GameGenre = GameGenre.Platformer
+                            },
+                            new VideoGame()
+                            {
+                                Title = "Hades",
+                                Description = "Hades is a rogue-like dungeon crawler that combines the best aspects of Supergiant's critically acclaimed titles, including the fast-paced action of Bastion, the rich atmosphere and depth of Transistor, and the character-driven storytelling of Pyre. BATTLE OUT OF HELL As the immortal Prince of the Underworld, you'll wield the powers and mythic weapons of Olympus to break free from the clutches of the god of the dead himself, while growing stronger and unraveling more of the story with each unique escape attempt.",
+                                Price = 29.95,
+                                ImageURL = "https://cdn1.epicgames.com/min/offer/1200x1600-1200x1600-e92fa6b99bb20c9edee19c361b8853b9.jpg",
+                                ReleaseDate = new DateTime(2020, 09, 17),
+                                DeveloperId = 2,
+                                GameGenre = GameGenre.Action
+                            },
+                            new VideoGame()
+                            {
+                                Title = "Diablo IV",
+                                Description = "Meet Your Maker\r\n\r\nLilith has returned to Sanctuary, summoned by a dark ritual after eons in exile. Her return ushers in an age of darkness and misery.\r\n\r\nSanctuary, a land once ravaged by war between the High Heavens and Burning Hells, has fallen once more into darkness. Lilith, daughter of Mephisto, Lord of Hatred, has been summoned by dark ritual after eons in exile. Now, hatred threatens to consume Sanctuary as evil spreads and a new wave of cultists and worshippers arise to embrace Lilith’s coming. Only a brave few dare to face this threat…",
+                                Price = 69.99,
+                                ImageURL = "https://upload.wikimedia.org/wikipedia/en/1/1c/Diablo_IV_cover_art.png",
+                                ReleaseDate = new DateTime(2023, 06, 2),
+                                DeveloperId = 3,
+                                GameGenre = GameGenre.RPG
+                            }
+                        });
+                    context.SaveChanges();
+                }
+
+                //Publishers_VideoGames
+                if (!context.Publishers_VideoGames.Any())
+                {
+                    context.Publishers_VideoGames.AddRange(new List<Publisher_VideoGame>()
+                    {
+                        new Publisher_VideoGame()
+                        {
+                            PublisherId = 3,
+                            VideoGameId = 3
+                        },
+                        new Publisher_VideoGame()
+                        {
+                            PublisherId = 4,
+                            VideoGameId = 3
                         },
 
-                         new Actor_Movie()
+                         new Publisher_VideoGame()
                         {
-                            ActorId = 1,
-                            MovieId = 2
+                            PublisherId = 2,
+                            VideoGameId = 2
                         },
-                         new Actor_Movie()
+                         new Publisher_VideoGame()
                         {
-                            ActorId = 4,
-                            MovieId = 2
-                        },
-
-                        new Actor_Movie()
-                        {
-                            ActorId = 1,
-                            MovieId = 3
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 2,
-                            MovieId = 3
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 5,
-                            MovieId = 3
-                        },
-
-
-                        new Actor_Movie()
-                        {
-                            ActorId = 2,
-                            MovieId = 4
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 3,
-                            MovieId = 4
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 4,
-                            MovieId = 4
-                        },
-
-
-                        new Actor_Movie()
-                        {
-                            ActorId = 2,
-                            MovieId = 5
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 3,
-                            MovieId = 5
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 4,
-                            MovieId = 5
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 5,
-                            MovieId = 5
-                        },
-
-
-                        new Actor_Movie()
-                        {
-                            ActorId = 3,
-                            MovieId = 6
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 4,
-                            MovieId = 6
-                        },
-                        new Actor_Movie()
-                        {
-                            ActorId = 5,
-                            MovieId = 6
-                        },
+                            PublisherId = 1,
+                            VideoGameId = 1
+                        }
                     });
                     context.SaveChanges();
                 }

@@ -14,13 +14,13 @@ namespace VideoGameStore.Controllers
     {
 
         private readonly ShoppingCart _shoppingCart;
-        private readonly IMoviesService _moviesService;
+        private readonly IVideoGamesService _videoGamesService;
         private readonly IOrdersService _ordersService;
 
-        public OrdersController(ShoppingCart shoppingCart, IMoviesService moviesService, IOrdersService ordersService)
+        public OrdersController(ShoppingCart shoppingCart, IVideoGamesService videoGamesService, IOrdersService ordersService)
         {
             _shoppingCart = shoppingCart;
-            _moviesService = moviesService;
+            _videoGamesService = videoGamesService;
             _ordersService = ordersService;
         }
 
@@ -51,7 +51,7 @@ namespace VideoGameStore.Controllers
 
         public async Task<IActionResult> AddItemToShoppingCart(int id)
         {
-            var item = await _moviesService.GetMovieByIdAsync(id);
+            var item = await _videoGamesService.GetVideoGameByIdAsync(id);
 
             if (item != null)
             {
@@ -63,7 +63,7 @@ namespace VideoGameStore.Controllers
 
         public async Task<IActionResult> RemoveItemFromShoppingCart(int id)
         {
-            var item = await _moviesService.GetMovieByIdAsync(id);
+            var item = await _videoGamesService.GetVideoGameByIdAsync(id);
 
             if (item != null)
             {

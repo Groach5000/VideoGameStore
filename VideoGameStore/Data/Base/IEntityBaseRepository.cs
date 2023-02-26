@@ -8,7 +8,7 @@ namespace VideoGameStore.Data.Base
         // It is a good practice to use a service to access the database instead of directly
         // accessing it from a controller. Thus we create the following methods below 
         // That can be called from the controller
-        //Get all actors from Database, make it a "task" to allow it to be an async enumerable
+        //Get all Producer from Database, make it a "task" to allow it to be an async enumerable
         Task<IEnumerable<T>> GetAllAsync();
         // Overload
         Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includeProperties);

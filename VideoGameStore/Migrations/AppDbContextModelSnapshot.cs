@@ -155,47 +155,6 @@ namespace VideoGameStore.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.Actor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Bio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ProfilePictureURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Actors");
-                });
-
-            modelBuilder.Entity("VideoGameStore.Models.Actor_Movie", b =>
-                {
-                    b.Property<int>("ActorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ActorId", "MovieId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Actors_Movies");
-                });
-
             modelBuilder.Entity("VideoGameStore.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -265,7 +224,7 @@ namespace VideoGameStore.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.Cinema", b =>
+            modelBuilder.Entity("VideoGameStore.Models.Developer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,70 +232,22 @@ namespace VideoGameStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("About")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Logo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Cinemas");
-                });
-
-            modelBuilder.Entity("VideoGameStore.Models.Movie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CinemaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("LogoURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MovieCategory")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<int>("ProducerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CinemaId");
-
-                    b.HasIndex("ProducerId");
-
-                    b.ToTable("Movies");
+                    b.ToTable("Developers");
                 });
 
             modelBuilder.Entity("VideoGameStore.Models.Order", b =>
@@ -353,9 +264,11 @@ namespace VideoGameStore.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -371,25 +284,25 @@ namespace VideoGameStore.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("VideoGameId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
-
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("VideoGameId");
 
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.Producer", b =>
+            modelBuilder.Entity("VideoGameStore.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -397,22 +310,37 @@ namespace VideoGameStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Bio")
+                    b.Property<string>("About")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ProfilePictureURL")
+                    b.Property<string>("LogoURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Producers");
+                    b.ToTable("Publishers");
+                });
+
+            modelBuilder.Entity("VideoGameStore.Models.Publisher_VideoGame", b =>
+                {
+                    b.Property<int>("PublisherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VideoGameId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PublisherId", "VideoGameId");
+
+                    b.HasIndex("VideoGameId");
+
+                    b.ToTable("Publishers_VideoGames");
                 });
 
             modelBuilder.Entity("VideoGameStore.Models.ShoppingCartItem", b =>
@@ -426,21 +354,21 @@ namespace VideoGameStore.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ShoppingCartId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("VideoGameId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
+                    b.HasIndex("VideoGameId");
 
                     b.ToTable("ShoppingCartItems");
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.TestPerson", b =>
+            modelBuilder.Entity("VideoGameStore.Models.VideoGame", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -448,22 +376,39 @@ namespace VideoGameStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Bio")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
+                    b.Property<int>("DeveloperId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameAgeRating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameGenre")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("ProfilePictureURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("TestPerson");
+                    b.HasIndex("DeveloperId");
+
+                    b.ToTable("VideoGames");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -517,87 +462,80 @@ namespace VideoGameStore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.Actor_Movie", b =>
+            modelBuilder.Entity("VideoGameStore.Models.Order", b =>
                 {
-                    b.HasOne("VideoGameStore.Models.Actor", "Actor")
-                        .WithMany("Actors_Movies")
-                        .HasForeignKey("ActorId")
+                    b.HasOne("VideoGameStore.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VideoGameStore.Models.Movie", "Moive")
-                        .WithMany("Actors_Movies")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Actor");
-
-                    b.Navigation("Moive");
-                });
-
-            modelBuilder.Entity("VideoGameStore.Models.Movie", b =>
-                {
-                    b.HasOne("VideoGameStore.Models.Cinema", "Cinema")
-                        .WithMany("Movies")
-                        .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VideoGameStore.Models.Producer", "Producer")
-                        .WithMany("Movies")
-                        .HasForeignKey("ProducerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cinema");
-
-                    b.Navigation("Producer");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("VideoGameStore.Models.OrderItem", b =>
                 {
-                    b.HasOne("VideoGameStore.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("VideoGameStore.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Movie");
+                    b.HasOne("VideoGameStore.Models.VideoGame", "VideoGame")
+                        .WithMany()
+                        .HasForeignKey("VideoGameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
+
+                    b.Navigation("VideoGame");
+                });
+
+            modelBuilder.Entity("VideoGameStore.Models.Publisher_VideoGame", b =>
+                {
+                    b.HasOne("VideoGameStore.Models.Publisher", "Publisher")
+                        .WithMany("Publishers_VideoGames")
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VideoGameStore.Models.VideoGame", "VideoGame")
+                        .WithMany("Publishers_VideoGames")
+                        .HasForeignKey("VideoGameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publisher");
+
+                    b.Navigation("VideoGame");
                 });
 
             modelBuilder.Entity("VideoGameStore.Models.ShoppingCartItem", b =>
                 {
-                    b.HasOne("VideoGameStore.Models.Movie", "Movie")
+                    b.HasOne("VideoGameStore.Models.VideoGame", "VideoGame")
                         .WithMany()
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("VideoGameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Movie");
+                    b.Navigation("VideoGame");
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.Actor", b =>
+            modelBuilder.Entity("VideoGameStore.Models.VideoGame", b =>
                 {
-                    b.Navigation("Actors_Movies");
+                    b.HasOne("VideoGameStore.Models.Developer", "Developer")
+                        .WithMany("VideoGames")
+                        .HasForeignKey("DeveloperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Developer");
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.Cinema", b =>
+            modelBuilder.Entity("VideoGameStore.Models.Developer", b =>
                 {
-                    b.Navigation("Movies");
-                });
-
-            modelBuilder.Entity("VideoGameStore.Models.Movie", b =>
-                {
-                    b.Navigation("Actors_Movies");
+                    b.Navigation("VideoGames");
                 });
 
             modelBuilder.Entity("VideoGameStore.Models.Order", b =>
@@ -605,9 +543,14 @@ namespace VideoGameStore.Migrations
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("VideoGameStore.Models.Producer", b =>
+            modelBuilder.Entity("VideoGameStore.Models.Publisher", b =>
                 {
-                    b.Navigation("Movies");
+                    b.Navigation("Publishers_VideoGames");
+                });
+
+            modelBuilder.Entity("VideoGameStore.Models.VideoGame", b =>
+                {
+                    b.Navigation("Publishers_VideoGames");
                 });
 #pragma warning restore 612, 618
         }

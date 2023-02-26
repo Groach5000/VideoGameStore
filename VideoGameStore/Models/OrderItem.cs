@@ -15,9 +15,9 @@ namespace VideoGameStore.Models
         public int Amount { get; set; }
         public double Price { get; set; }
 
-        public int MovieId { get; set; }
-        [ForeignKey("MovieId")]
-        public Movie Movie { get; set; }
+        public int VideoGameId { get; set; }
+        [ForeignKey("VideoGameId")]
+        public VideoGame VideoGame { get; set; }
 
         public int OrderId { get; set; }
         [ForeignKey("OrderId")]

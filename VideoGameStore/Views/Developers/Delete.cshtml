@@ -1,0 +1,60 @@
+﻿@model Developer
+
+@{
+    ViewData["Title"] = "Delete Developer";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Delete Confirmation for @Model.CompanyName</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+
+                    @*File Picture preview*@
+                    <div class="form-group text-center">
+                        <img class="border-info rounded" style="max-width: 150px" id="LogoPreview" />
+                    </div>
+
+                    @*Each of the fields of the form*@
+                    <div class="form-group">
+                        <label asp-for="LogoURL" class="control-label"></label>
+                        <input asp-for="LogoURL" class="form-control" readonly/>
+                        <span asp-validation-for="LogoURL" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CompanyName" class="control-label"></label>
+                        <input asp-for="CompanyName" class="form-control" readonly/>
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="About" class="control-label"></label>
+                        <input asp-for="About" class="form-control" readonly/>
+                        <span asp-validation-for="About" class="text-danger"></span>
+                    </div>
+
+                    @*submit button*@
+                    <div class="form-group">
+                        <form asp-action="Delete">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="submit" value="Confirm" class="btn btn-danger float-right" />
+                            <a class="btn btn-outline-secondary float-end" asp-action="Index">Show All</a>
+                        </form>
+                        
+                        
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        //If an Error occurs due to oninvalid data, the following attempts to display the Picture again.
+        $(document).ready(function () {
+            var output = document.getElementById('LogoPreview');
+            output.src = $("#LogoURL").val();
+        })
+    </script>
+}

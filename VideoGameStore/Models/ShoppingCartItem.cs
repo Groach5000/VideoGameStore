@@ -7,7 +7,7 @@ namespace VideoGameStore.Models
         [Key]
         public int Id { get; set; }
 
-        public Movie Movie { get; set; }
+        public VideoGame VideoGame { get; set; }
 
         public int Amount { get; set; }
 

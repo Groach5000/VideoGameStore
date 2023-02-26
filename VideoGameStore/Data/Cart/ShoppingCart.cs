@@ -20,21 +20,21 @@ namespace VideoGameStore.Data.Cart
 
         public List<ShoppingCartItem> GetShoppingCartItems()
         {
-            return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems.Where( n => n.ShoppingCartId == ShoppingCartId).Include(n => n.Movie).ToList());
+            return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems.Where( n => n.ShoppingCartId == ShoppingCartId).Include(n => n.VideoGame).ToList());
         }
 
-        public double GetShoppingCartTotal() => _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Select(n => n.Amount * n.Movie.Price).Sum();
+        public double GetShoppingCartTotal() => _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Select(n => n.Amount * n.VideoGame.Price).Sum();
 
-        public void AddItemToCart(Movie movie)
+        public void AddItemToCart(VideoGame videoGame)
         {
-            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId && n.Movie.Id == movie.Id);
+            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId && n.VideoGame.Id == videoGame.Id);
 
             if (shoppingCartItem == null)
             {
                 shoppingCartItem = new ShoppingCartItem()
                 {
                     ShoppingCartId = ShoppingCartId,
-                    Movie = movie,
+                    VideoGame = videoGame,
                     Amount = 1,
                 };
                 _context.ShoppingCartItems.Add(shoppingCartItem);
@@ -45,9 +45,9 @@ namespace VideoGameStore.Data.Cart
             _context.SaveChanges();
         }
 
-        public void RemoveItemToCart(Movie movie)
+        public void RemoveItemToCart(VideoGame videoGame)
         {
-            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId && n.Movie.Id == movie.Id);
+            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId && n.VideoGame.Id == videoGame.Id);
 
             if (shoppingCartItem != null)
             {

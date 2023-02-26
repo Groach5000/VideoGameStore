@@ -1,0 +1,95 @@
+﻿@using VideoGameStore.Data.Enums;
+@model VideoGame
+
+@{
+    ViewData["Title"] = "Video game details";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <div class="card mb-12">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-header text-white bg-info">
+                        <p class="card-text">
+                            <h5 class="card-title">
+                                @Model.Title
+                            </h5>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="@Model.ImageURL" width="100%" alt="@Model.Title">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="card-text">@Model.Description</p>
+                        <p class="card-text">
+                            <b>Developer: </b>
+                            <a asp-controller="Developers" asp-action="Details" asp-route-id="@Model.DeveloperId">
+                                @Model.Developer.CompanyName
+                            </a>
+                        </p>
+                        <p class="card-text"><b>Category: </b>@Model.GameGenre</p>
+                        <p class="card-text">
+                            <b>Age Rating: </b>
+                            @*Using the EnumHelper Class to show the display name of the age rating instead
+                            of the enum value.*@
+                            @foreach (var value in @EnumHelper<GameAgeRating>.GetValues(GameAgeRating.RP))
+                            {
+                                if (value == Model.GameAgeRating)
+                                {
+                                    var description = EnumHelper<GameAgeRating>.GetDisplayValue(value);
+                                    @Html.DisplayFor(e => description );
+                                }
+                            }
+                        </p>
+                        <p class="card-text"><b>Release Date: </b>@Model.ReleaseDate.ToString("dd MMM yy")</p>
+                        <p class="card-text ">
+                            <b>Status: </b>
+                            @if (DateTime.Now >= Model.ReleaseDate)
+                            {
+                                <span class="badge bg-success text-white">AVAILABLE</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-primary text-white">UPCOMING</span>
+                            }
+                        </p>
+                        <p class="card-text">
+                            <b>Publishers: </b>
+                            <hr />
+                            <div class="row">
+                                @foreach (var publister in Model.Publishers_VideoGames)
+                                {
+                                    <div class="column text-center">
+                                        <img class="border-info rounded" src="@publister.Publisher.LogoURL" style="max-width: 150px" />
+                                        <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publister.PublisherId">@publister.Publisher.CompanyName</a>
+                                    </div>
+                                }
+                            </div>
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="card-footer">
+                        <p class="card-text">
+                            <a class="btn btn-outline-info float-right" asp-action="Index">Back to List</a>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-outline-info float-right" asp-action="Edit" asp-route-id="@Model.Id">
+                                    <i class="bi bi-pencil-square"></i>Edit</a>
+                            }
+                            @if (DateTime.Now >= Model.ReleaseDate)
+                            {
+                                <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
+                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

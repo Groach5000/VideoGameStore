@@ -1,0 +1,69 @@
+﻿@model Developer
+
+@{
+    ViewData["Title"] = "Update Developer";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Update Developer</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    @*File Picture preview*@
+                    <div class="form-group text-center">
+                        <img id="LogoPreview" class="border-info rounded" style="max-width: 150px" />
+                    </div>
+
+                    @*Each of the fields of the form*@
+                    <div class="form-group">
+                        <label asp-for="LogoURL" class="control-label"></label>
+                        <input asp-for="LogoURL" class="form-control" />
+                        <span asp-validation-for="LogoURL" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CompanyName" class="control-label"></label>
+                        <input asp-for="CompanyName" class="form-control" />
+                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="About" class="control-label"></label>
+                        <input asp-for="About" class="form-control" />
+                        <span asp-validation-for="About" class="text-danger"></span>
+                    </div>
+
+                    @*Added the following for Publister Id because we have to pass the PublisterId when updating or else 0 = ID
+                    will be passed and thus a new Publister will be created instead of one being updated.
+                    *@
+                    <input type="hidden" asp-for="Id" />
+
+                    @*submit button*@
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-outline-success float-right" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        //If an Error occurs due to oninvalid data, the following attempts to display the Picture again.
+        $(document).ready(function () {
+            var output = document.getElementById('LogoPreview');
+            output.src = $("#LogoURL").val();
+        })
+
+        // Display picture upon URL posting
+        $("#LogoURL").on("change", function () {
+            var output = document.getElementById('LogoPreview');
+            output.src = $(this).val();
+        })
+    </script>
+}

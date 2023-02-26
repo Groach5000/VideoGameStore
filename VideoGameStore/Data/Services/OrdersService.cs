@@ -16,9 +16,9 @@ namespace VideoGameStore.Data.Services
         
         public async Task<List<Order>> GetOrderByUserIdAndRoleAsync(string userId, string userRole)
         {
-            //var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Movie).Where(n => n.UserId == userId).ToListAsync();
+            //var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.VideoGame).Where(n => n.UserId == userId).ToListAsync();
 
-            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Movie).Include(n => n.User).ToListAsync();
+            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.VideoGame).Include(n => n.User).ToListAsync();
 
             if (userRole != "Admin")
             {
@@ -44,8 +44,8 @@ namespace VideoGameStore.Data.Services
                 var orderItem = new OrderItem()
                 {
                     Amount = item.Amount,
-                    MovieId = item.Movie.Id,
-                    Price = item.Movie.Price,
+                    VideoGameId = item.VideoGame.Id,
+                    Price = item.VideoGame.Price,
                     OrderId = order.Id
                 };
                 await _context.OrderItems.AddAsync(orderItem);

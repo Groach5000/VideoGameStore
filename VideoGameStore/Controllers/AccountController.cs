@@ -42,7 +42,7 @@ namespace VideoGameStore.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Movies");
+                        return RedirectToAction("Index", "VideoGames");
                     }
                     else if (result.IsLockedOut)
                     {
@@ -108,7 +108,7 @@ namespace VideoGameStore.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Movies");
+            return RedirectToAction("Index", "VideoGames");
         }
 
         public async Task<IActionResult> Users()

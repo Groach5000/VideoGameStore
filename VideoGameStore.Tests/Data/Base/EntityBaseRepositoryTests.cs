@@ -24,17 +24,17 @@ namespace VideoGameStore.Tests.Data.Base
 
             var databaseContext = new AppDbContext(options);
             databaseContext.Database.EnsureCreated();
-            if(await databaseContext.Actors.CountAsync() < 0)
+            if(await databaseContext.Publishers.CountAsync() < 0)
             {
-                // Add actors to the database
-                for(int i = 0; i < 10; i++)
+                // Add Publishers to the database
+                for (int i = 0; i < 10; i++)
                 {
-                    databaseContext.Actors.Add(new Actor()
+                    databaseContext.Publishers.Add(new Publisher()
                     {
                         Id = i,
-                        FullName = "John Doe",
-                        Bio = "Is an actor",
-                        ProfilePictureURL = "https://media.istockphoto.com/id/1277773692/vector/indiana-states-of-usa-outline-map-vector-template-illustration-design-editable-stroke.jpg?s=612x612&w=0&k=20&c=pbWNu1pu2Lw2XfZ2iC-F8Er_irDTosBL8PnAn9xBYEo="
+                        CompanyName = "John Doe",
+                        About = "Is a publisher",
+                        LogoURL = "https://media.istockphoto.com/id/1277773692/vector/indiana-states-of-usa-outline-map-vector-template-illustration-design-editable-stroke.jpg?s=612x612&w=0&k=20&c=pbWNu1pu2Lw2XfZ2iC-F8Er_irDTosBL8PnAn9xBYEo="
                     });
                 }
                 await databaseContext.SaveChangesAsync();
@@ -49,18 +49,18 @@ namespace VideoGameStore.Tests.Data.Base
         public async void EntityBaseRepository_AddAsync_ReturnsBool()
         {
             // Arrange
-            var actor = new Actor()
+            var publisher = new Publisher()
             {
                 Id = 11,
-                FullName = "John Doe",
-                Bio = "Is an actor",
-                ProfilePictureURL = "https://media.istockphoto.com/id/1277773692/vector/indiana-states-of-usa-outline-map-vector-template-illustration-design-editable-stroke.jpg?s=612x612&w=0&k=20&c=pbWNu1pu2Lw2XfZ2iC-F8Er_irDTosBL8PnAn9xBYEo="
+                CompanyName = "John Doe",
+                About = "Is a publisher",
+                LogoURL = "https://media.istockphoto.com/id/1277773692/vector/indiana-states-of-usa-outline-map-vector-template-illustration-design-editable-stroke.jpg?s=612x612&w=0&k=20&c=pbWNu1pu2Lw2XfZ2iC-F8Er_irDTosBL8PnAn9xBYEo="
             };
             var dbContext = await GetDbContext();
-            var actorRepository = new EntityBaseRepository<Actor>(dbContext);
+            var publisherRepository = new EntityBaseRepository<Publisher>(dbContext);
 
             //Act
-            //var result = actorRepository.AddAsync(actor);
+            //var result = publisherRepository.AddAsync(actor);
 
             //Assert
             //result.Should().BeTrue();
@@ -70,26 +70,26 @@ namespace VideoGameStore.Tests.Data.Base
             Task.Run(async () =>
             {
                 // Actual test code here.
-                await actorRepository.AddAsync(actor);
+                await publisherRepository.AddAsync(publisher);
             }).GetAwaiter().GetResult();
         }
 
         [Fact]
-        public async void EntityBaseRepository_GetByIdAsync_ReturnActor()
+        public async void EntityBaseRepository_GetByIdAsync_ReturnPublisher()
         {
             //Arrange
             var id = 1;
             var dbContext = await GetDbContext();
-            var actorRepository = new EntityBaseRepository<Actor>(dbContext);
+            var publisherRepository = new EntityBaseRepository<Publisher>(dbContext);
 
             //Act 
             // using await will cause the test to fail saving it into a var
-            var result = actorRepository.GetByIdAsync(id);
+            var result = publisherRepository.GetByIdAsync(id);
 
             //Assert
             result.Should().NotBeNull();
             result.Id.Should().Be(id);
-            result.Should().BeOfType<Task<Actor>>();
+            result.Should().BeOfType<Task<Publisher>>();
         }
 
     }

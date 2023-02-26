@@ -37,9 +37,9 @@ namespace VideoGameStore.Data.Base
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            // Old code below that was in actor Service, now using "Set<T>()" instead of Actors since we can
-                // Take multiple models and perform this same action.
-            //var result = await _context.Actors.ToListAsync();
+            // Old code below that was in Publister Service, now using "Set<T>()" instead of Publister since we can
+            // Take multiple models and perform this same action.
+            //var result = await _context.Publister.ToListAsync();
             return await _context.Set<T>().ToListAsync();
         }
         // Above could be simplified to: public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();

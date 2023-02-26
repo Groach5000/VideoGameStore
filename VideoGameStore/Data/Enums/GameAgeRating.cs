@@ -1,20 +1,21 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace VideoGameStore.Data.Enums
 {
     public enum GameAgeRating
     {
-        [Description("Everyone")]
-        E =1,
-        [Description("Everyone 10+")]
+        [Display(Name = "Everyone")]
+        E = 1,
+        [Display(Name = "Everyone 10+")]
         E10,
-        [Description("Teen")]
+        [Display(Name = "Teen")]
         T,
-        [Description("Mature")]
+        [Display(Name = "Mature")]
         M,
-        [Description("Adults Only")]
+        [Display(Name = "Adults Only")]
         AO,
-        [Description("Rating Pending")]
+        [Display(Name = "Rating Pending")]
         RP
     }
 }

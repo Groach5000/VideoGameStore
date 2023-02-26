@@ -9,10 +9,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Services Confirguration:
-builder.Services.AddScoped<IActorsService, ActorsService>();
-builder.Services.AddScoped<IProducersService, ProducersService>();
-builder.Services.AddScoped<ICinemasService, CinemasService>();
-builder.Services.AddScoped<IMoviesService, MoviesService>();
+builder.Services.AddScoped<IPublishersService, PublishersService>();
+builder.Services.AddScoped<IDevelopersService, DevelopersService>();
+builder.Services.AddScoped<IVideoGamesService, VideoGamesService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
 //Addtions for cart session
@@ -78,7 +77,7 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Movies}/{action=Index}/{id?}");
+    pattern: "{controller=VideoGames}/{action=Index}/{id?}");
 
 //Seed Database
 AppDbInitializer.Seed(app);

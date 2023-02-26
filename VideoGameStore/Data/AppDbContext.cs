@@ -13,31 +13,29 @@ namespace VideoGameStore.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Actor_Movie>().HasKey(am => new
+            modelBuilder.Entity<Publisher_VideoGame>().HasKey(am => new
             {
-                am.ActorId,
-                am.MovieId
+                am.PublisherId,
+                am.VideoGameId
             });
 
-            // Defining relationship of one to many, one movie has many actors
-            modelBuilder.Entity<Actor_Movie>().HasOne(m => m.Moive).WithMany(am => am.Actors_Movies).HasForeignKey(m => m.MovieId);
+            // Defining relationship of one to many, one game has many publishers
+            modelBuilder.Entity<Publisher_VideoGame>().HasOne(m => m.VideoGame).WithMany(am => am.Publishers_VideoGames).HasForeignKey(m => m.VideoGameId);
 
-            // Defining relationship of one to many, one actor has many movies
-            modelBuilder.Entity<Actor_Movie>().HasOne(m => m.Actor).WithMany(am => am.Actors_Movies).HasForeignKey(m => m.ActorId);
+            // Defining relationship of one to many, one publisher has many games
+            modelBuilder.Entity<Publisher_VideoGame>().HasOne(m => m.Publisher).WithMany(am => am.Publishers_VideoGames).HasForeignKey(m => m.PublisherId);
 
             base.OnModelCreating(modelBuilder);
 
         }
 
-        public DbSet<Actor> Actors { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
 
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<VideoGame> VideoGames { get; set; }
 
-        public DbSet<Actor_Movie> Actors_Movies { get; set; }
+        public DbSet<Publisher_VideoGame> Publishers_VideoGames { get; set; }
 
-        public DbSet<Cinema> Cinemas { get; set; }
-
-        public DbSet<Producer> Producers { get; set; }
+        public DbSet<Developer> Developers { get; set; }
 
         //Orders related tables
         public DbSet<Order> Orders { get; set; }
