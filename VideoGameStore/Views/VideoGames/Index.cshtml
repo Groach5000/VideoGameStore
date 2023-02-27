@@ -9,10 +9,10 @@
 @if (tempShowFeatured.ToString() == "true")
 {
     @Html.Partial("../Shared/VideoGameShared/_FeaturedGames.cshtml")
-    <button onclick="location.href=
+    <a class="btn btn-outline-info" onclick="location.href=
         '@Url.Action( "Index", "VideoGames",new { sortOrder = ViewBag.TitleSortParm })';
         return false;">Sort by title
-    </button>
+    </a>
 }
 
 @Html.Partial("../Shared/VideoGameShared/_VideoGameCards.cshtml")

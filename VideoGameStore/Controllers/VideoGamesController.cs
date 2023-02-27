@@ -26,31 +26,34 @@ namespace VideoGameStore.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var allVideoGames = await _service.GetAllAsync();
+            var result = await _service.GetAllAsync();
 
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(n => n.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
+                    n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                    ).ToList();
+                TempData["ShowFeatured"] = "false";
+            }
+            else
+            {
+                TempData["ShowFeatured"] = "true";
+            }
 
             switch (sortOrder)
             {
                 case "title_desc":
-                    allVideoGames = allVideoGames.OrderByDescending(n => n.Title);
+                    result = result.OrderByDescending(n => n.Title);
                     break;
 
                 default:
-                    allVideoGames = allVideoGames.OrderBy(n => n.Title);
+                    result = result.OrderBy(n => n.Title);
                     break;
             }
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                var searchResults = allVideoGames.Where(n => n.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
-                    n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
-                    ).ToList();
-                TempData["ShowFeatured"] = "false";
-                return View("Index", searchResults);
-            }
-            TempData["ShowFeatured"] = "true";
-            return View(allVideoGames);
+            return View(result);
         }
 
         //Get: VideoGames/Detials/1
