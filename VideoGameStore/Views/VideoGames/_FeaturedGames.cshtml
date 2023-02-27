@@ -11,7 +11,7 @@
                 <div class="video-game-group" id="group-1">
                     @foreach (var item in Model)
                     {
-                        @if (item.Id == 1)@*ToDo: Currently hardcoded, need toalso add error checking*@
+                        @if (item.Id == 1)@*ToDo: Currently hardcoded, need to also add error checking*@
                         {
                             @Html.Partial("_FeaturedGameCard.cshtml", @item);
                         }
@@ -32,10 +32,9 @@
                     </a>
                     @foreach (var item in Model)
                     {
-                        @if (item.Id == 2)@*ToDo: Currently hardcoded, need toalso add error checking*@
+                        @if (item.Id == 2)@*ToDo: Currently hardcoded, need to also add error checking*@
                         {
-                            @Html.Partial("_FeaturedGameCard.cshtml", @item)
-                            ;
+                            @Html.Partial("_FeaturedGameCard.cshtml", @item);
                         }
                     }
                     <a class="next" href="#group-3" aria-label="next">
@@ -54,10 +53,9 @@
                     </a>
                     @foreach (var item in Model)
                     {
-                        @if (item.Id == 3)@*ToDo: Currently hardcoded, need toalso add error checking*@
+                        @if (item.Id == 3)@*ToDo: Currently hardcoded, need to also add error checking*@
                         {
-                            @Html.Partial("_FeaturedGameCard.cshtml", @item)
-                            ;
+                            @Html.Partial("_FeaturedGameCard.cshtml", @item);
                         }
                     }
 
@@ -70,17 +68,17 @@
 
             </div>
         </div>
-        @*Arrows for left and right movement, they take up a lot of space, need to find a different method*@
-        @*<svg>
-            <symbol id="next" viewBox="0 0 256 512">
-                <path fill="white"
-                        d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" />
-            </symbol>
-
-            <symbol id="previous" viewBox="0 0 256 512">
-                <path fill="white"
-                        d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z" />
-            </symbol>
-        </svg>*@
     </div>
+    @*Arrows for left and right movement, they take up a lot of space, so placing to the right side of the feature container*@
+    <svg>
+    <symbol id="next" viewBox="0 0 256 512">
+    <path fill="white"
+    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" />
+    </symbol>
+
+    <symbol id="previous" viewBox="0 0 256 512">
+    <path fill="white"
+    d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z" />
+    </symbol>
+    </svg>
 </div>
