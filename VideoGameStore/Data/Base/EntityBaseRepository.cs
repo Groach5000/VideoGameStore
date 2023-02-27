@@ -73,7 +73,9 @@ namespace VideoGameStore.Data.Base
             await _context.SaveChangesAsync();
         }
 
-        
-
+        public IQueryable<T> GetAllAsQueriable()
+        {
+            return _context.Set<T>().AsQueryable();
+        }
     }
 }

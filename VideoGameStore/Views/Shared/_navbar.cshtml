@@ -1,4 +1,5 @@
-﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+﻿
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" asp-area="" asp-controller="VideoGames" asp-action="Index">Video Game Store</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -25,8 +26,8 @@
                     </li>
                 }
             </ul>
-            <form class="d-xl-inline-flex my-2 my-lg-0" asp-controller="VideoGames" asp-action="Filter" style="padding-right: 25px;">
-                <input name="searchString" type="text" class="form-control" placeholder="Search for a game..." aria-label="Recipient's username" aria-describedby="button-addon2">
+            <form class="d-xl-inline-flex my-2 my-lg-0" asp-controller="VideoGames" asp-action="Index" style="padding-right: 25px;">
+                <input name="searchString" type="text" class="form-control" placeholder="Search for a game..." >
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
             </form>
             <ul class="navbar-nav">

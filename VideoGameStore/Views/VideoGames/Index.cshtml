@@ -1,9 +1,21 @@
-﻿@{
+﻿@using VideoGameStore.Models;
+@using VideoGameStore.Data.Enums;
+
+@{
     ViewData["Title"] = "List of video games";
+    var tempShowFeatured = TempData["ShowFeatured"];
 }
 
-@Html.Partial("../Shared/Components/VideoGameShared/_FeaturedGames.cshtml")
+@if (tempShowFeatured.ToString() == "true")
+{
+    @Html.Partial("../Shared/VideoGameShared/_FeaturedGames.cshtml")
+}
 
-@Html.Partial("../Shared/Components/VideoGameShared/_VideoGameCards.cshtml")
+<a class="btn btn-success text-white" asp-controller="VideoGames"
+   asp-action="Sort" > Sort by title</a>
+
+@*@Html.Partial("../Shared/VideoGameShared/_FilterVideoGames.cshtml")*@
+
+@Html.Partial("../Shared/VideoGameShared/_VideoGameCards.cshtml")
 
 @await Html.PartialAsync("_CreateItem", "VideoGames")

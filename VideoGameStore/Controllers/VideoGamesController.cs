@@ -23,10 +23,21 @@ namespace VideoGameStore.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var data = await _service.GetAllAsync();
-            return View(data);
+            var allVideoGames = await _service.GetAllAsync();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var searchResults = allVideoGames.Where(n => n.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
+                    n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
+                    n.Developer.CompanyName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                    ).ToList();
+                TempData["ShowFeatured"] = "false";
+                return View("Index", searchResults);
+            }
+            TempData["ShowFeatured"] = "true";
+            return View(allVideoGames);
         }
 
         //Get: VideoGames/Detials/1
@@ -113,19 +124,15 @@ namespace VideoGameStore.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Filter (string searchString)
+        public async Task<IActionResult> Sort()
         {
             var allVideoGames = await _service.GetAllAsync();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                var searchResults = allVideoGames.Where(n => n.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
-                    n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            var searchResults = allVideoGames.OrderBy(n => n.Title).ToList();
 
-                return View("Index", searchResults);
-            }
+            TempData["ShowFeatured"] = "false";
 
-            return View("Index", allVideoGames);
+            return View("Index", searchResults);
         }
     }
 }
