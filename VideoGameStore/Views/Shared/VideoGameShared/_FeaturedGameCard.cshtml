@@ -1,22 +1,20 @@
 ﻿@using VideoGameStore.Data.Enums;
 @model VideoGame
 
-
 <div class="video-game-element">
-    <img src="@Model.ImageURL"
-    alt="">
+    <a asp-action="Details" asp-route-id="@Model.Id">
+        <img src="@Model.ImageURL"alt="">
+    </a>
 </div>
 <div class="col-md-12">
     <div class="col-md-12">
         <div class="card-header text-white bg-info">
             <p class="card-text">
-                <h3 class="card-title">
-            @Model.Title
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                    {
-                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil-square"></i></a>
-                    }
+                <a asp-action="Details" asp-route-id="@Model.Id" style="color: white">
+                   <h3 class="card-title" asp-action="Details" asp-route-id="@Model.Id">
+                    @Model.Title
                 </h3>
+                </a>
             </p>
         </div>
     </div>
@@ -42,8 +40,7 @@
                     if (value == Model.GameAgeRating)
                     {
                         var description = EnumHelper<GameAgeRating>.GetDisplayValue(value);
-                        @Html.DisplayFor(e => description )
-                        ;
+                        @Html.DisplayFor(e => description );
                     }
                 }
             </p>
@@ -62,4 +59,3 @@
         </div>
     </div>
 </div>
-

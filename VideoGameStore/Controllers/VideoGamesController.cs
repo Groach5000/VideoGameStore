@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.Data.SqlClient;
 
 namespace VideoGameStore.Controllers
 {
@@ -23,15 +24,27 @@ namespace VideoGameStore.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             var allVideoGames = await _service.GetAllAsync();
+
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    allVideoGames = allVideoGames.OrderByDescending(n => n.Title);
+                    break;
+
+                default:
+                    allVideoGames = allVideoGames.OrderBy(n => n.Title);
+                    break;
+            }
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 var searchResults = allVideoGames.Where(n => n.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
-                    n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
-                    n.Developer.CompanyName.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
+                    n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
                     ).ToList();
                 TempData["ShowFeatured"] = "false";
                 return View("Index", searchResults);

@@ -9,12 +9,11 @@
 @if (tempShowFeatured.ToString() == "true")
 {
     @Html.Partial("../Shared/VideoGameShared/_FeaturedGames.cshtml")
+    <button onclick="location.href=
+        '@Url.Action( "Index", "VideoGames",new { sortOrder = ViewBag.TitleSortParm })';
+        return false;">Sort by title
+    </button>
 }
-
-<a class="btn btn-success text-white" asp-controller="VideoGames"
-   asp-action="Sort" > Sort by title</a>
-
-@*@Html.Partial("../Shared/VideoGameShared/_FilterVideoGames.cshtml")*@
 
 @Html.Partial("../Shared/VideoGameShared/_VideoGameCards.cshtml")
 
