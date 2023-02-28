@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.Data.SqlClient;
 
+
 namespace VideoGameStore.Controllers
 {
     [Authorize(Roles = UserRoles.Admin)]
@@ -24,11 +25,19 @@ namespace VideoGameStore.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString)
         {
-            var result = await _service.GetAllAsync();
-
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+
+            if (searchString == null)
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var result = await _service.GetAllAsync();
 
             if (!string.IsNullOrEmpty(searchString))
             {

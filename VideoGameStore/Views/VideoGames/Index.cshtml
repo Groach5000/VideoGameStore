@@ -6,14 +6,18 @@
     var tempShowFeatured = TempData["ShowFeatured"];
 }
 
+@*Only showing the featured game bar when a search has not occured.*@
 @if (tempShowFeatured.ToString() == "true")
 {
     @Html.Partial("../Shared/VideoGameShared/_FeaturedGames.cshtml")
-    <a class="btn btn-outline-info" onclick="location.href=
-        '@Url.Action( "Index", "VideoGames",new { sortOrder = ViewBag.TitleSortParm })';
-        return false;">Sort by title
-    </a>
 }
+
+<a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Index", "VideoGames",
+        new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })';
+    return false;">Sort by title
+</a>
+
+
 
 @Html.Partial("../Shared/VideoGameShared/_VideoGameCards.cshtml")
 
