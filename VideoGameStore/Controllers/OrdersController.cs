@@ -1,7 +1,6 @@
 ﻿using VideoGameStore.Data.Cart;
 using VideoGameStore.Data.Services;
 using VideoGameStore.Data.ViewModels;
-using VideoGameStore.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;

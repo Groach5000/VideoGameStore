@@ -1,10 +1,8 @@
-﻿using VideoGameStore.Data;
-using VideoGameStore.Data.Services;
+﻿using VideoGameStore.Data.Services;
 using VideoGameStore.Data.Static;
 using VideoGameStore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.NetworkInformation;
 
 namespace VideoGameStore.Controllers
 {
