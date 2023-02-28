@@ -15,6 +15,7 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Items</th>
+                    <th>Order Date/Time</th>
                     <th>Total</th>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
@@ -39,6 +40,9 @@
                                     </li>
                                 }
                             </ul>
+                        </td>
+                        <td class="align-middle">
+                            @order.OrderDateTime.ToString()
                         </td>
                         <td class="align-middle">
                             @order.OrderItems.Select(m => m.VideoGame.Price * m.Amount).Sum().ToString("c")

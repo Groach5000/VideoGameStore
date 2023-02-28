@@ -34,6 +34,7 @@ namespace VideoGameStore.Data.Services
             {
                 UserId = userId,
                 Email = userEmailAddress,
+                OrderDateTime= DateTime.Now,
             };
 
             await _context.Orders.AddAsync(order);

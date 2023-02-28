@@ -16,5 +16,7 @@ namespace VideoGameStore.Models
         public ApplicationUser User { get; set; }
 
         public List<OrderItem> OrderItems { get; set; }
+
+        public DateTime OrderDateTime { get; set; }
     }
 }

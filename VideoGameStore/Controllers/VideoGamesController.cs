@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.Data.SqlClient;
 
-
 namespace VideoGameStore.Controllers
 {
     [Authorize(Roles = UserRoles.Admin)]
