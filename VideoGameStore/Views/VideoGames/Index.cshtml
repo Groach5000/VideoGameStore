@@ -16,6 +16,10 @@
     return false;">Sort by title
 </a>
 
+@if (ViewBag.CurrentFilter != "" && ViewBag.CurrentFilter != null)
+{
+    <label style="padding: 5px">Current search filter: @ViewBag.CurrentFilter</label>
+}
 
 @*Shows all video game cards that come up from the current search/sort criteria*@
 @Html.Partial("../Shared/VideoGameShared/_VideoGameCards.cshtml")
