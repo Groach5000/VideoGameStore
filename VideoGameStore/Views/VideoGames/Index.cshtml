@@ -1,5 +1,4 @@
 ﻿@using VideoGameStore.Models;
-@using VideoGameStore.Data.Enums;
 
 @{
     ViewData["Title"] = "List of video games";
@@ -18,7 +17,7 @@
 </a>
 
 
-
+@*Shows all video game cards that come up from the current search/sort criteria*@
 @Html.Partial("../Shared/VideoGameShared/_VideoGameCards.cshtml")
 
 @await Html.PartialAsync("_CreateItem", "VideoGames")
