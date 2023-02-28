@@ -91,6 +91,21 @@ namespace VideoGameStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Get: VideoGames/Delete/1
+        public async Task<IActionResult> Delete(int id)
+        {
+            var videoGameDetails = await _service.GetByIdAsync(id);
+            if (videoGameDetails == null)
+            {
+                return View("NotFound");
+            }
+
+            await _service.DeleteAsync(videoGameDetails);
+
+            // Return view of publishers with item in it.
+            return RedirectToAction(nameof(Index));
+        }
+
 
         //GET: VideoGames/Edit/1
         public async Task<IActionResult> Edit(int id)

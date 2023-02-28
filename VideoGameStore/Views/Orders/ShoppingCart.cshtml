@@ -59,9 +59,9 @@
             <div class="btn-group">
                 @*Old method of completing order, now adding paypal option, use developer.paypal.com generated credit card*@
                 <a class="btn btn-outline-primary" asp-controller="Orders" asp-action="CompleteOrder">
-                    Complete order
+                    Complete order Basic
                 </a>
-                @*<div id="paypal-btn"></div>*@
+                <div id="paypal-btn"></div>
                 <span style="padding:5px"></span>
                 <a class="btn btn-outline-success" asp-controller="VideoGames" asp-action="Index">
                     Add more items
@@ -91,7 +91,7 @@
             //Customize button
             locale: 'en_US',
             style: {
-                size: 'small',
+                size: 'medium',
                 color: 'gold',
                 shape: 'pill'
             },

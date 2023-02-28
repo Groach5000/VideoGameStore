@@ -66,7 +66,7 @@
                             <div class="row">
                                 @foreach (var publister in Model.Publishers_VideoGames)
                                 {
-                                    <div class="column text-center">
+                                    <div class="column text-md-start">
                                         <img class="border-info rounded" src="@publister.Publisher.LogoURL" style="max-width: 150px" />
                                         <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publister.PublisherId">@publister.Publisher.CompanyName</a>
                                     </div>
@@ -84,6 +84,12 @@
                             {
                                 <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
                                     <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
+                            }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-danger float-right" href="@Url.Action( 
+                                    "Delete", "VideoGames", new { Id = Model.Id })" 
+                                    onclick="return confirm('Are you sure you want to Delete?')">Delete</a>
                             }
                         </p>
                     </div>
