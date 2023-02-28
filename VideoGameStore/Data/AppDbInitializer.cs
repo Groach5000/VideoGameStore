@@ -9,6 +9,7 @@ namespace VideoGameStore.Data
     {
         public static void Seed(IApplicationBuilder applicationBuilder)
         {
+            // Using using because Dispose() will be called even if there is an exception that occurs.
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
                 // Create reference to App Data Context file to get/send info with DB.
