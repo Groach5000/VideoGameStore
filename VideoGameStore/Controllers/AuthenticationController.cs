@@ -190,8 +190,7 @@ namespace VideoGameStore.Controllers
                 ExpiryDate = DateTime.UtcNow.AddMonths(3),
                 IsRevoked = false,
                 IsUsed = false,
-                UserId = user.Id,
-                //ToDo: Add role? unsure if requried at the moment
+                UserId = user.Id
             };
 
             await _context.RefreshTokens.AddAsync(refreshToken);
@@ -235,7 +234,7 @@ namespace VideoGameStore.Controllers
 
             try
             {
-                _tokenValidationParameters.ValidateLifetime = false; // for testing, ToDo: needs to be true
+                _tokenValidationParameters.ValidateLifetime = true;
 
                 var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, 
                     _tokenValidationParameters, out var validatedToken);

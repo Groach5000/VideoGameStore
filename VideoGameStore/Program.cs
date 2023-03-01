@@ -31,8 +31,6 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Lax;
 });
 
-
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -65,7 +63,7 @@ var tokenValidationParameters = new TokenValidationParameters()
     // While developing on localhost, set false so not to cause issues with HTTPS
     ValidateIssuer = false, //ToDo Dev purposes only, change to true on launch
     ValidateAudience = false, //ToDo Dev purposes only, change to true on launch
-    RequireExpirationTime = false, //ToDo Dev purposes only, change to true on launch, update when refresh token is added
+    RequireExpirationTime = true,
 
     ValidateLifetime = true,
     ClockSkew = TimeSpan.Zero
