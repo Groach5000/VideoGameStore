@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
-using System.Drawing.Printing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using VideoGameStore.Configurations;
 using VideoGameStore.Data;
 using VideoGameStore.Data.Static;
-using VideoGameStore.Data.ViewModels;
 using VideoGameStore.Models;
 using VideoGameStore.Models.DTOs;
 
@@ -22,13 +20,18 @@ namespace VideoGameStore.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly AppDbContext _context;
+        private readonly TokenValidationParameters _tokenValidationParameters;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+            SignInManager<ApplicationUser> signInManager, IConfiguration configuration,
+            AppDbContext context, TokenValidationParameters tokenValidationParameters)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _context = context;
+            _tokenValidationParameters = tokenValidationParameters;
         }
 
         [HttpPost]
@@ -93,11 +96,7 @@ namespace VideoGameStore.Controllers
 
             var token = GenerateJwtToken(newUser, "user");
 
-            return Ok(new AuthenticateResult()
-            {
-                Result = true,
-                Token = token
-            });
+            return Ok(token);
         }
 
         [HttpPost]
@@ -130,17 +129,15 @@ namespace VideoGameStore.Controllers
                                 }
                             }
 
-                            var jwtToken = GenerateJwtToken(user, role);
+                            var jwtToken = await GenerateJwtToken(user, role);
 
-                            return Ok(new AuthenticateResult() { Result = true, Token = jwtToken });
+                            return Ok(jwtToken);
                         }
 
                         return BadRequest(new AuthenticateResult()
                         {
                             Errors = new List<string>()
-                            {
-                                "Your account has been locked. Please contact the helpdesk."
-                            },
+                            {"Your account has been locked. Please contact the helpdesk."},
                             Result = false
                         });
                     }
@@ -157,7 +154,7 @@ namespace VideoGameStore.Controllers
             });
         }
 
-        private string GenerateJwtToken(ApplicationUser user, string role)
+        private async Task<AuthenticateResult> GenerateJwtToken(ApplicationUser user, string role)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -176,13 +173,192 @@ namespace VideoGameStore.Controllers
                     new Claim(ClaimTypes.Role, role)
                 }),
 
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
+                Expires = DateTime.Now.Add(TimeSpan.Parse(_configuration.GetSection(key: "JwtConfig:ExpiryTimeFrame").Value)),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
+                    SecurityAlgorithms.HmacSha256),
             };
 
             var token = jwtTokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = jwtTokenHandler.WriteToken(token);
-            return jwtToken;
+
+            //Refresh token info
+            var refreshToken = new RefreshToken()
+            {
+                JwtId = token.Id,
+                Token = RandomStringGenerator(36), // Generate a refresh token
+                AddedDate = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddMonths(3),
+                IsRevoked = false,
+                IsUsed = false,
+                UserId = user.Id,
+                //ToDo: Add role? unsure if requried at the moment
+            };
+
+            await _context.RefreshTokens.AddAsync(refreshToken);
+            await _context.SaveChangesAsync();
+
+            return new AuthenticateResult()
+            {
+                Result = true,
+                Token = jwtToken,
+                RefreshToken = refreshToken.Token,
+            };
+        }
+
+        [HttpPost]
+        [Route("RefreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await VerifyAndGenerateToken(tokenRequest);
+
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+            }
+
+            return BadRequest(new AuthenticateResult()
+            {
+                Errors = new List<string>()
+                {
+                    "Invalid parameters."
+                },
+                Result = false
+            });
+        }
+
+        private async Task<AuthenticateResult> VerifyAndGenerateToken(TokenRequest tokenRequest)
+        {
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+
+            try
+            {
+                _tokenValidationParameters.ValidateLifetime = false; // for testing, ToDo: needs to be true
+
+                var tokenInVerification = jwtTokenHandler.ValidateToken(tokenRequest.Token, 
+                    _tokenValidationParameters, out var validatedToken);
+
+                if(validatedToken is JwtSecurityToken jwtSecurityToken)
+                {
+                    var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, 
+                        StringComparison.InvariantCultureIgnoreCase);
+
+                    if(result == false)
+                    {
+                        return null;
+                    }
+                }
+
+                var utcExpiryDate = long.Parse(tokenInVerification.Claims.FirstOrDefault(
+                    d => d.Type == JwtRegisteredClaimNames.Exp).Value);
+
+                var expiryDate = UnixTimeStampToDateTime(utcExpiryDate);
+
+                if( expiryDate < DateTime.UtcNow )
+                {
+                    return new AuthenticateResult()
+                    {
+                        Errors = new List<string>()
+                        {
+                            "Expired token."
+                        },
+                        Result = false
+                    };
+                }
+
+                var  storedToken = await _context.RefreshTokens.FirstOrDefaultAsync(n => n.Token == tokenRequest.RefreshToken);
+
+                if (storedToken == null)
+                {
+                    return new AuthenticateResult()
+                    {
+                        Errors = new List<string>()
+                        {
+                            "Invalid token."
+                        },
+                        Result = false
+                    };
+                }
+
+                var jti = tokenInVerification.Claims.FirstOrDefault(n => n.Type == JwtRegisteredClaimNames.Jti).Value;
+
+                if ( storedToken.IsUsed || storedToken.IsRevoked || storedToken.JwtId != jti)
+                {
+                    return new AuthenticateResult()
+                    {
+                        Errors = new List<string>()
+                        {
+                            "Invalid token."
+                        },
+                        Result = false
+                    };
+                }
+
+                if (storedToken.ExpiryDate < DateTime.UtcNow )
+                {
+                    return new AuthenticateResult()
+                    {
+                        Errors = new List<string>()
+                        {
+                            "Expired token."
+                        },
+                        Result = false
+                    };
+                }
+
+                // Validation complete, can create new token.
+                storedToken.IsUsed = true;
+                _context.RefreshTokens.Update(storedToken);
+                await _context.SaveChangesAsync();
+
+                var dbUser = await _userManager.FindByIdAsync(storedToken.UserId);
+
+                var roles = await _userManager.GetRolesAsync(dbUser);
+
+                string role = "user";
+
+                foreach (string item in roles)
+                {
+                    if (item.ToString() == "Admin")
+                    {
+                        role = "Admin";
+                    }
+                }
+
+                return await GenerateJwtToken(dbUser, role);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+                return new AuthenticateResult()
+                {
+                    Errors = new List<string>()
+                        {
+                            "Server Error."
+                        },
+                    Result = false
+                };
+
+            }
+            
+        }
+
+        private DateTime UnixTimeStampToDateTime(long unixTimeStamp)
+        {
+            var dateTimeVal = new DateTime(1970, 1, 1, 0,0,0, DateTimeKind.Utc);
+
+            dateTimeVal = dateTimeVal.AddSeconds(unixTimeStamp);
+            return dateTimeVal;
+        }
+
+        private string RandomStringGenerator(int length)
+        {
+            var random = new Random();
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
