@@ -39,7 +39,7 @@ namespace VideoGameStore.Models
         public int DeveloperId { get; set; }
         [ForeignKey("DeveloperId")]
 
-        public Developer Developer { get; set;}
+        public Developer? Developer { get; set;}
 
 
     }
