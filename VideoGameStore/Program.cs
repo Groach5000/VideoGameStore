@@ -5,6 +5,12 @@ using VideoGameStore.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using VideoGameStore.Configurations;
+using System.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,14 +23,6 @@ builder.Services.AddScoped<IOrdersService, OrdersService>();
 //Addtions for cart session
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
-
-//Authentication and authorization
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddMemoryCache();
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-});
 
 // Additions for cookies
 builder.Services.AddSession(options =>
@@ -53,6 +51,46 @@ builder.Services.AddDbContext<VideoGameStore.Data.AppDbContext>
 // "Add-Migration " + Name, can be "Initial" if it runs without errors, it will create the class:
 // "class Initial : Migration" under the Migrations folder
 // Then, in the console type: "Update-Database"
+
+// Get the secret key for JWT configuration. This will replace the cookie authentication previously used.
+builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection(key: "JwtConfig"));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(jwt =>
+{
+    var key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection(key: "JwtConfig:Secret").Value);
+
+    jwt.SaveToken = true;
+    jwt.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+
+        // While developing on localhost, set false so not to cause issues with HTTPS
+        ValidateIssuer = false, //ToDo Dev purposes only, change to true on launch
+        ValidateAudience = false, //ToDo Dev purposes only, change to true on launch
+        RequireExpirationTime = false, //ToDo Dev purposes only, change to true on launch, update when refresh token is added
+
+        ValidateLifetime = true,
+    };
+});
+
+//Authentication and authorization
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddMemoryCache();
+
+// ToDo: Replacing with JWT, but currently keeping in code to maintain user interface login until the conversion is complete.
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+});
+
+
 
 var app = builder.Build();
 

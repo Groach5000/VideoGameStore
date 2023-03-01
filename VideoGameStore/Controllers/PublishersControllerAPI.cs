@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using VideoGameStore.Data.Services;
@@ -10,7 +11,8 @@ namespace eTickets.Controllers
     //This is an REST API, to see/allow JSON to Create/Read/Update/Delete items (CRUD)
     [ApiController]
     [Route("api/")]
-    [Authorize(Roles = UserRoles.Admin)]
+    // ToDo: Add in Admin role again. Currently just checking if there is a token: , Roles = UserRoles.Admin
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PublishersControllerAPI : ControllerBase 
     {
         private readonly IPublishersService _service;
@@ -70,7 +72,7 @@ namespace eTickets.Controllers
             await _service.AddAsync(Publisher);
 
             // Return view of Publishers with item in it.
-            return "Publisher with id: " + Publisher.Id.ToString() + " deleted";
+            return "Publisher with id: " + Publisher.Id.ToString() + " created.";
         }
 
         [HttpPut("Publishers/Edit/{id}")]
