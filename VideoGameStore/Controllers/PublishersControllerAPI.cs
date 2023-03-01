@@ -12,7 +12,7 @@ namespace eTickets.Controllers
     [ApiController]
     [Route("api/")]
     // ToDo: Add in Admin role again. Currently just checking if there is a token: , Roles = UserRoles.Admin
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.Admin)]
     public class PublishersControllerAPI : ControllerBase 
     {
         private readonly IPublishersService _service;

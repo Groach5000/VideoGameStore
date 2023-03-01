@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.Drawing.Printing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,11 +21,13 @@ namespace VideoGameStore.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public AuthenticationController(UserManager<ApplicationUser> userManager,
-            IConfiguration configuration)
+            SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _configuration = configuration;
         }
 
@@ -88,7 +91,7 @@ namespace VideoGameStore.Controllers
                 });
             }
 
-            var token = GenerateJwtToken(newUser);
+            var token = GenerateJwtToken(newUser, "user");
 
             return Ok(new AuthenticateResult()
             {
@@ -111,9 +114,35 @@ namespace VideoGameStore.Controllers
 
                     if (passwordCheck)
                     {
-                        var jwtToken = GenerateJwtToken(user);
+                        var result = await _signInManager.PasswordSignInAsync(user, loginRequest.Password, false, false);
 
-                        return Ok(new AuthenticateResult() { Result = true, Token = jwtToken });
+                        if (result.Succeeded)
+                        {
+                            var roles = await _userManager.GetRolesAsync(user);
+
+                            string role = "user";
+
+                            foreach (string item in roles)
+                            {
+                                if (item.ToString() == "Admin")
+                                {
+                                    role = "Admin";
+                                }
+                            }
+
+                            var jwtToken = GenerateJwtToken(user, role);
+
+                            return Ok(new AuthenticateResult() { Result = true, Token = jwtToken });
+                        }
+
+                        return BadRequest(new AuthenticateResult()
+                        {
+                            Errors = new List<string>()
+                            {
+                                "Your account has been locked. Please contact the helpdesk."
+                            },
+                            Result = false
+                        });
                     }
                 }
             }
@@ -128,7 +157,7 @@ namespace VideoGameStore.Controllers
             });
         }
 
-        private string GenerateJwtToken(ApplicationUser user)
+        private string GenerateJwtToken(ApplicationUser user, string role)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -143,7 +172,8 @@ namespace VideoGameStore.Controllers
                     new Claim(type: JwtRegisteredClaimNames.Sub, value: user.Email),
                     new Claim(type: JwtRegisteredClaimNames.Email, value: user.Email),
                     new Claim(type: JwtRegisteredClaimNames.Jti, value: Guid.NewGuid().ToString()),
-                    new Claim(type: JwtRegisteredClaimNames.Iat, value: DateTime.Now.ToUniversalTime().ToString())
+                    new Claim(type: JwtRegisteredClaimNames.Iat, value: DateTime.Now.ToUniversalTime().ToString()),
+                    new Claim(ClaimTypes.Role, role)
                 }),
 
                 Expires = DateTime.Now.AddDays(1),
