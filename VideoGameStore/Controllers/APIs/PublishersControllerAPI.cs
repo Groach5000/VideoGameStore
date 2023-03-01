@@ -36,14 +36,14 @@ namespace eTickets.Controllers
         [AllowAnonymous]
         public async Task<Publisher> Details(int id)
         {
-            var PublisherDetails = await _service.GetByIdAsync(id);
-            if (PublisherDetails == null)
+            var publisherDetails = await _service.GetByIdAsync(id);
+            if (publisherDetails == null)
             {
                 return null;
             }
             else
             {
-                return PublisherDetails;
+                return publisherDetails;
             }
         }
 
@@ -51,54 +51,54 @@ namespace eTickets.Controllers
         [HttpGet("Publishers/Edit/{id}")]
         public async Task<Publisher> Edit(int id)
         {
-            var PublisherDetails = await _service.GetByIdAsync(id);
-            if (PublisherDetails == null)
+            var publisherDetails = await _service.GetByIdAsync(id);
+            if (publisherDetails == null)
             {
                 return null;
             }
-            return PublisherDetails;
+            return publisherDetails;
         }
 
         
         [HttpPost("Publishers/Create")]
-        public async Task<string> Create(Publisher Publisher)
+        public async Task<string> Create(Publisher publisher)
         {
             if(ModelState.IsValid == false)//Checks if items that are required in model are present
             {
                 return "Invalid Publisher input";
             }
             // Add the Publisher to DB if passes valid checks
-            await _service.AddAsync(Publisher);
+            await _service.AddAsync(publisher);
 
             // Return view of Publishers with item in it.
-            return "Publisher with id: " + Publisher.Id.ToString() + " created.";
+            return "Publisher with id: " + publisher.Id.ToString() + " created.";
         }
 
         [HttpPut("Publishers/Edit/{id}")]
-        public async Task<int> Edit(int id, Publisher Publisher)
+        public async Task<string> Edit(int id, Publisher publisher)
         {
             if (ModelState.IsValid == false)//Checks if items that are required in model are present
             {
-                return -1;
+                return "Invalid Publisher input";
             }
             // Add the Publisher to DB if passes valid checks
-            await _service.UpdateAsync(id, Publisher);
+            await _service.UpdateAsync(id, publisher);
 
             // Return view of Publishers with item in it.
-            return Publisher.Id;
+            return "Publisher with id: " + publisher.Id.ToString() + " edited.";
         }
 
         [HttpDelete("Publishers/Delete/{id}")] // Delete request: Publishers/Delete/1
         public async Task<string> DeleteConfirmed(int id)
         {
-            var PublisherDetails = await _service.GetByIdAsync(id);
+            var publisherDetails = await _service.GetByIdAsync(id);
 
-            if (PublisherDetails == null)
+            if (publisherDetails == null)
             {
                 return "Publisher Not Found";
             }
 
-            await _service.DeleteAsync(PublisherDetails);
+            await _service.DeleteAsync(publisherDetails);
 
             // Return view of Publishers with item in it.
             return "Publisher with id: " + id + " deleted";
