@@ -2,10 +2,13 @@
 @model IEnumerable<VideoGame>
 
 @{
-    VideoGame featuredGame1 = ViewBag.featured1;
-    VideoGame featuredGame2 = ViewBag.featured2;
-    VideoGame featuredGame3 = ViewBag.featured3;
+    VideoGame featuredGame1 = ViewBag.featuredGames[0];
+    VideoGame featuredGame2 = ViewBag.featuredGames[1];
+    VideoGame featuredGame3 = ViewBag.featuredGames[2];
 }
+
+@*ToDo: There exists a bug where if you refesh the page and the featured game is not #1, then the next/prevous buttons will be
+        displayed incorrectly causing some confusion to the user. On refresh, set group-1 as current view.*@
 
 <div id="outer" ">
     <div id="inner">
@@ -15,13 +18,7 @@
             <div class="video-game-scroller">
                 <!--   Group 1 -->
                 <div class="video-game-group" id="group-1">
-                    @foreach (var item in Model)
-                    {
-                    @if (item.Id == featuredGame1.Id)
-                        {
-                            @Html.Partial("_FeaturedGameCard.cshtml", @item)
-                        }
-                    }
+                    @Html.Partial("_FeaturedGameCard.cshtml", featuredGame1)
                     <a class="next" href="#group-2" aria-label="next">
                         <svg>
                             <use href="#next"></use>
@@ -36,13 +33,7 @@
                             <use href="#previous"></use>
                         </svg>
                     </a>
-                    @foreach (var item in Model)
-                    {
-                    @if (item.Id == featuredGame2.Id)
-                        {
-                    @Html.Partial("_FeaturedGameCard.cshtml", @item)
-                        }
-                    }
+                    @Html.Partial("_FeaturedGameCard.cshtml", featuredGame2)
                     <a class="next" href="#group-3" aria-label="next">
                         <svg>
                             <use href="#next"></use>
@@ -57,14 +48,7 @@
                             <use href="#previous"></use>
                         </svg>
                     </a>
-                    @foreach (var item in Model)
-                    {
-                    @if (item.Id ==  featuredGame3.Id)
-                        {
-                    @Html.Partial("_FeaturedGameCard.cshtml", @item)
-                        }
-                    }
-
+                    @Html.Partial("_FeaturedGameCard.cshtml", featuredGame3)
                 </div>
                 <div class="navigation-indicators">
                     <div></div>

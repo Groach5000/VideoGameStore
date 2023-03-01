@@ -47,12 +47,7 @@ namespace VideoGameStore.Controllers
                 if (result.Count() >= 3)
                 {
                     Random rand= new Random();
-                    List<VideoGame> item = result.OrderBy(x => rand.Next()).Take(3).ToList();
-
-                    ViewBag.featured1 = item[0];
-                    ViewBag.featured2 = item[1];
-                    ViewBag.featured3 = item[2];
-
+                    ViewBag.featuredGames = result.OrderBy(x => rand.Next()).Take(3).ToList();
                     ViewBag.ShowFeatured = true;
                 }
                 
