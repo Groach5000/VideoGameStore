@@ -23,6 +23,7 @@ namespace VideoGameStore.Controllers
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.ShowFeatured = false;
 
             if (searchString == null)
             {
@@ -33,16 +34,28 @@ namespace VideoGameStore.Controllers
 
             var result = await _service.GetAllAsync();
 
+            
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 result = result.Where(n => n.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
                     n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
                     ).ToList();
-                TempData["ShowFeatured"] = "false";
             }
             else
             {
-                TempData["ShowFeatured"] = "true";
+                if (result.Count() >= 3)
+                {
+                    Random rand= new Random();
+                    List<VideoGame> item = result.OrderBy(x => rand.Next()).Take(3).ToList();
+
+                    ViewBag.featured1 = item[0];
+                    ViewBag.featured2 = item[1];
+                    ViewBag.featured3 = item[2];
+
+                    ViewBag.ShowFeatured = true;
+                }
+                
             }
 
             switch (sortOrder)

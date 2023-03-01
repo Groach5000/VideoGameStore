@@ -1,6 +1,12 @@
 ﻿@using VideoGameStore.Data.Enums;
 @model IEnumerable<VideoGame>
 
+@{
+    VideoGame featuredGame1 = ViewBag.featured1;
+    VideoGame featuredGame2 = ViewBag.featured2;
+    VideoGame featuredGame3 = ViewBag.featured3;
+}
+
 <div id="outer" ">
     <div id="inner">
         <h2 class="section-title">Featured Games</h2>
@@ -11,7 +17,7 @@
                 <div class="video-game-group" id="group-1">
                     @foreach (var item in Model)
                     {
-                        @if (item.Id == 1)@*ToDo: Currently hardcoded, need to also add error checking*@
+                    @if (item.Id == featuredGame1.Id)
                         {
                             @Html.Partial("_FeaturedGameCard.cshtml", @item)
                         }
@@ -32,7 +38,7 @@
                     </a>
                     @foreach (var item in Model)
                     {
-                        @if (item.Id == 2)@*ToDo: Currently hardcoded, need to also add error checking*@
+                    @if (item.Id == featuredGame2.Id)
                         {
                     @Html.Partial("_FeaturedGameCard.cshtml", @item)
                         }
@@ -53,7 +59,7 @@
                     </a>
                     @foreach (var item in Model)
                     {
-                        @if (item.Id == 3)@*ToDo: Currently hardcoded, need to also add error checking*@
+                    @if (item.Id ==  featuredGame3.Id)
                         {
                     @Html.Partial("_FeaturedGameCard.cshtml", @item)
                         }

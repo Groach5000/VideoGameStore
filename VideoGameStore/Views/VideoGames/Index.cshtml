@@ -2,11 +2,10 @@
 
 @{
     ViewData["Title"] = "List of video games";
-    var tempShowFeatured = TempData["ShowFeatured"];
 }
 
 @*Only showing the featured game bar when a search has not occured.*@
-@if (tempShowFeatured.ToString() == "true")
+@if (ViewBag.ShowFeatured == true)
 {
     @Html.Partial("../Shared/VideoGameShared/_FeaturedGames.cshtml")
 }
