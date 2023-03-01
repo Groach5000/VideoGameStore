@@ -11,7 +11,6 @@ namespace eTickets.Controllers
     //This is an REST API, to see/allow JSON to Create/Read/Update/Delete items (CRUD)
     [ApiController]
     [Route("api/")]
-    // ToDo: Add in Admin role again. Currently just checking if there is a token: , Roles = UserRoles.Admin
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = UserRoles.Admin)]
     public class PublishersControllerAPI : ControllerBase 
     {
