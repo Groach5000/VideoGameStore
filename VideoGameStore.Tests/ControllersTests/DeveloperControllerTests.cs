@@ -91,7 +91,7 @@ namespace VideoGameStore.Tests
             A.CallTo(() => _service.GetByIdAsync(developer.Id)).Returns(developer);
 
             //Act
-            var result = _controller.DeleteConfirmed(id);
+            var result = _controller.Delete(id);
 
             //Assert
             result.Should().BeOfType<Task<IActionResult>>();
