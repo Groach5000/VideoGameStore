@@ -85,20 +85,7 @@ namespace VideoGameStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //Get: publishers/Delete/1 , this one will be called
         public async Task<IActionResult> Delete(int id)
-        {
-            var publisherDetails = await _service.GetByIdAsync(id);
-            if (publisherDetails == null)
-            {
-                return View("NotFound");
-            }
-            return View(publisherDetails);
-        }
-
-        [HttpPost, ActionName("Delete")] // Post request: Post: publishers/Delete/1
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var publisherDetails = await _service.GetByIdAsync(id);
 

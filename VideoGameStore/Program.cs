@@ -85,7 +85,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 //Authentication and authorization
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true
+// ToDo: Had to make RequireConfirmedAccount = false until email verification is implemented.
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false
     ).AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddMemoryCache();
 

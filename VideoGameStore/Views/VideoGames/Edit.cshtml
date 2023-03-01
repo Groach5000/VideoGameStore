@@ -78,6 +78,11 @@
                     <div class="form-group">
                         <input type="submit" value="Update" class="btn btn-outline-success float-right" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                        <a class="btn btn-danger float-right" href="@Url.Action( 
+                            "Delete", "VideoGames", new { Id = Model.Id })" 
+                            onclick="return confirm('Are you sure you want to Delete?')">
+                            <i class="bi bi-trash"></i>Delete
+                        </a>
                     </div>
 
                 </form>

@@ -48,7 +48,9 @@
                                 <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">
                                     <i class="bi bi-eye"></i>Details
                                 </a>
-                                <a class="btn btn-danger text-white" asp-action="Delete" asp-route-id="@item.Id">
+                                <a class="btn btn-danger float-right" href="@Url.Action(
+                                    "Delete", "Developers", new { Id = item.Id })"
+                                    onclick="return confirm('Are you sure you want to Delete?')">
                                     <i class="bi bi-trash"></i>Delete
                                 </a>
                             </td>

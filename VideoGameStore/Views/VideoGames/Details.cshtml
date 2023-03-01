@@ -85,12 +85,6 @@
                                 <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
                                     <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
                             }
-                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                            {
-                                <a class="btn btn-danger float-right" href="@Url.Action( 
-                                    "Delete", "VideoGames", new { Id = Model.Id })" 
-                                    onclick="return confirm('Are you sure you want to Delete?')">Delete</a>
-                            }
                         </p>
                     </div>
                 </div>

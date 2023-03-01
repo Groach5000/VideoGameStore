@@ -84,19 +84,7 @@ namespace VideoGameStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //Get: developers/Delete/1 , this one will be called
         public async Task<IActionResult> Delete(int id)
-        {
-            var developerDetails = await _service.GetByIdAsync(id);
-            if (developerDetails == null)
-            {
-                return View("NotFound");
-            }
-            return View(developerDetails);
-        }
-
-        [HttpPost, ActionName("Delete")] // Post request: Post: developers/Delete/1
-        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var developerDetails = await _service.GetByIdAsync(id);
 

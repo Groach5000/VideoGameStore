@@ -89,7 +89,7 @@ namespace eTickets.Controllers
         }
 
         [HttpDelete("Developers/Delete/{id}")] // Delete request: Developers/Delete/1
-        public async Task<string> DeleteConfirmed(int id)
+        public async Task<string> Delete(int id)
         {
             var developerDetails = await _service.GetByIdAsync(id);
 
