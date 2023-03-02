@@ -2,7 +2,7 @@
 
 <a name="readme-top"></a>
 
-This is a ASP.NET MVC project designed to perform the fuctionality of a video game store. I created this as a way to improve my coding skills while applying for jobs. All functionality can be performed via the front end or by JWT verified API CRUD operations. This is a work in progress and not intended to be used in a production enviroment.
+This is a ASP.NET MVC project designed to perform the functionality of a video game store. I created this as a way to improve my coding skills while applying for jobs. All functionality can be performed via the front end or by JWT verified API CRUD operations. This is a work in progress and not intended to be used in a production environment.
 
 ## Author
 ### Garrett Roach 
