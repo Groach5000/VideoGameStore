@@ -25,7 +25,8 @@ Modifications needed to be made to files/folders:
     "DefaultConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=VideoGameStore-DB;Integrated Security=True"
   }, 
 ```
-
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=009
 [linkedin-url]: https://www.linkedin.com/in/garrett-roach-indiana/
