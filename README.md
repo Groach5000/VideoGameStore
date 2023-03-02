@@ -16,9 +16,15 @@ This is a ASP.NET MVC project designed to perform the fuctionality of a video ga
 [![](Readme_Images/JWT_protected_API.PNG)](https://github.com/Groach5000/VideoGameStore)
 
 ### Installing
-Modifications needed to be made to files/folders
-
-
+Modifications needed to be made to files/folders:
+1. The DefaultConnectionString in appsettings.json will have to be updated with your own local DB connection string.
+   - Then in the "Package Manager Console", perform the following command:
+     - PM> Update-Database
+```json
+   "ConnectionStrings": {
+    "DefaultConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=VideoGameStore-DB;Integrated Security=True"
+  }, 
+```
 
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=009
