@@ -4,6 +4,8 @@ using VideoGameStore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using VideoGameStore.Models.searchModels;
+using System.Collections.Generic;
 
 namespace VideoGameStore.Controllers
 {
@@ -12,6 +14,8 @@ namespace VideoGameStore.Controllers
 
     {
         private readonly IVideoGamesService _service;
+
+        private const int numberOfFeaturedItems = 3;
 
         public VideoGamesController(IVideoGamesService service)
         {
@@ -25,6 +29,8 @@ namespace VideoGameStore.Controllers
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.ShowFeatured = false;
 
+            VideoGameSearch searchModel = new VideoGameSearch();
+
             if (searchString == null)
             {
                 searchString = currentFilter;
@@ -32,36 +38,21 @@ namespace VideoGameStore.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var result = await _service.GetAllAsync();
+            searchModel.Title = searchString;
+            searchModel.Description = searchString;
 
-            
+            var allGames = await _service.GetAllAsync();
 
-            if (!string.IsNullOrEmpty(searchString))
+            var searchLogic = new VideoGamesBusinessLogic(_service);
+
+            var result = searchLogic.GetQueriedVideoGames(allGames, searchModel, sortOrder);
+
+
+            if (result.Count() >= numberOfFeaturedItems && searchString == null)
             {
-                result = result.Where(n => n.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase) ||
-                    n.Description.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)
-                    ).ToList();
-            }
-            else
-            {
-                if (result.Count() >= 3)
-                {
-                    Random rand= new Random();
-                    ViewBag.featuredGames = result.OrderBy(x => rand.Next()).Take(3).ToList();
-                    ViewBag.ShowFeatured = true;
-                }
-                
-            }
-
-            switch (sortOrder)
-            {
-                case "title_desc":
-                    result = result.OrderByDescending(n => n.Title);
-                    break;
-
-                default:
-                    result = result.OrderBy(n => n.Title);
-                    break;
+                Random rand = new Random();
+                ViewBag.featuredGames = result.OrderBy(x => rand.Next()).Take(3).ToList();
+                ViewBag.ShowFeatured = true;
             }
 
             return View(result);
