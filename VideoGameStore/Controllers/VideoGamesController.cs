@@ -31,6 +31,11 @@ namespace VideoGameStore.Controllers
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.ShowFeatured = false;
 
+            ViewBag.MinPrice = PriceRange.Free;
+            ViewBag.MaxPrice = PriceRange.NoMax;
+            ViewBag.GameAgeRating = null;
+            ViewBag.GameGenre = null;
+
             VideoGameSearch searchModel = new VideoGameSearch();
 
             if (searchString == null)
@@ -165,6 +170,10 @@ namespace VideoGameStore.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.ShowFeatured = false;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.GameAgeRating = gameAgeRating;
+            ViewBag.GameGenre = gameGenre;
 
             VideoGameSearch searchModel = new VideoGameSearch()
             {

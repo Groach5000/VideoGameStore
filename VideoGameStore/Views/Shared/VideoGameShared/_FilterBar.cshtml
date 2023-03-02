@@ -1,38 +1,83 @@
 ﻿@using VideoGameStore.Data.Enums;
 
+@{
+    var previousMinPrice = ViewBag.MinPrice;
+    var previousMaxPrice = ViewBag.MaxPrice;
+    var previousGameAgeRating = ViewBag.GameAgeRating;
+    var previousGameGenre = ViewBag.GameGenre;
+
+    var previousMinPriceDescription = "";
+    var previousMaxPriceDescription = "";
+    var previousGameAgeRatingDescription = "";
+    var previousGameGenreDescription = "";
+
+    // Using EnumHelper to get the display strings of the used enums.
+    foreach (var value in @EnumHelper<PriceRange>.GetValues(PriceRange.Free))
+    {
+        if (value == previousMinPrice)
+        {
+            previousMinPriceDescription = EnumHelper<PriceRange>.GetDisplayValue(value);
+        }
+    }
+    foreach (var value in @EnumHelper<PriceRange>.GetValues(PriceRange.NoMax))
+    {
+        if (value == previousMaxPrice)
+        {
+            previousMaxPriceDescription = EnumHelper<PriceRange>.GetDisplayValue(value);
+        }
+    }
+    foreach (var value in @EnumHelper<GameAgeRating>.GetValues(GameAgeRating.RP))
+    {
+        if (value == previousGameAgeRating)
+        {
+            previousGameAgeRatingDescription = EnumHelper<GameAgeRating>.GetDisplayValue(value);
+        }
+    }
+    foreach (var value in @EnumHelper<GameGenre>.GetValues(GameGenre.Action))
+    {
+        if (value == previousGameGenre)
+        {
+            previousGameGenreDescription = EnumHelper<GameGenre>.GetDisplayValue(value);
+        }
+    }
+}
+
+
 @using (Html.BeginForm("Filter", "VideoGames", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter }))
 {
     <h4>APPLY A FILTER: </h4>
     <div class="row" style="max-width: 800px">
         <div class="col">
             <label for="MinPrice">Min Price: </label>
-            <select id="MinPrice" name="MinPrice" class="form-control" asp-items="Html.GetEnumSelectList<PriceRange>()"></select>
+            <select id="MinPrice" name="MinPrice" class="form-control" asp-items="Html.GetEnumSelectList<PriceRange>()">
+                <option value="@previousMinPrice" selected>@previousMinPriceDescription</option>
+            </select>
         </div>
         <div class="col">
             <label for="MaxPrice">Max Price: </label>
             <select id="MaxPrice" name="MaxPrice" class="form-control" asp-items="Html.GetEnumSelectList<PriceRange>()">
-                <option value="999" selected>No Max</option>
+                <option value="@previousMaxPrice" selected>@previousMaxPriceDescription</option>
             </select>
         </div>
         <div class="col">
             <label for="GameAgeRating">Game Age Rating: </label>
             <select id="GameAgeRating" name="GameAgeRating" class="form-control" asp-items="Html.GetEnumSelectList<GameAgeRating>()">
-                <option value="999" selected>Any Age Rating</option>
+                <option value="@previousGameAgeRating" selected>@previousGameAgeRatingDescription</option>
             </select>
         </div>
         <div class="col">
             <label for="GameGenre">Game Genre: </label>
             <select id="GameGenre" name="GameGenre" class="form-control" asp-items="Html.GetEnumSelectList<GameGenre>()">
-                <option value="999" selected>Any Genre</option>
+                <option value="@previousGameGenre" selected>@previousGameGenreDescription</option>
             </select>
         </div>
         <div class="col">
             <input class="btn btn-outline-success" type="submit" value="Filter" />
-            <a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Index", "VideoGames",
+            @*<a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Index", "VideoGames",
                 new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })';
                 return false;">
                 Sort by title
-            </a>
+            </a>*@
         </div>
     </div>
 }
