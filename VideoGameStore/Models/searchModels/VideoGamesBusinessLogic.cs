@@ -24,12 +24,12 @@ namespace VideoGameStore.Models.searchModels
                                 n.Description.Contains(searchModel.Description, StringComparison.CurrentCultureIgnoreCase)
                                 ).ToList();
                 if (searchModel.MaxPrice.HasValue)
-                    result = result.Where(x => x.Price <= searchModel.MaxPrice).ToList();
+                    result = result.Where(x => x.Price <= (int)searchModel.MaxPrice).ToList();
                 if (searchModel.MinPrice.HasValue)
-                    result = result.Where(x => x.Price >= searchModel.MinPrice).ToList();
+                    result = result.Where(x => x.Price >= (int)searchModel.MinPrice).ToList();
                 if (searchModel.GameGenre.HasValue)
                     result = result.Where(x => x.GameGenre == searchModel.GameGenre).ToList();
-                if (searchModel.GameGenre.HasValue)
+                if (searchModel.GameAgeRating.HasValue)
                     result = result.Where(x => x.GameAgeRating == searchModel.GameAgeRating).ToList();
             }
 

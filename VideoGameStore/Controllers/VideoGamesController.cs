@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VideoGameStore.Models.searchModels;
 using System.Collections.Generic;
+using VideoGameStore.Data.Enums;
+using Microsoft.Data.SqlClient;
 
 namespace VideoGameStore.Controllers
 {
@@ -157,15 +159,28 @@ namespace VideoGameStore.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Sort()
+        public async Task<IActionResult> Filter(PriceRange minPrice, PriceRange? maxPrice, GameAgeRating? gameAgeRating,
+            GameGenre? gameGenre, string sortOrder)
         {
-            var allVideoGames = await _service.GetAllAsync();
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.ShowFeatured = false;
 
-            var searchResults = allVideoGames.OrderBy(n => n.Title).ToList();
+            VideoGameSearch searchModel = new VideoGameSearch()
+            {
+                MinPrice = minPrice,
+                MaxPrice = maxPrice,
+                GameAgeRating = gameAgeRating,
+                GameGenre = gameGenre
+            };
 
-            TempData["ShowFeatured"] = "false";
+            var allGames = await _service.GetAllAsync();
 
-            return View("Index", searchResults);
+            var searchLogic = new VideoGamesBusinessLogic(_service);
+
+            var result = searchLogic.GetQueriedVideoGames(allGames, searchModel, sortOrder);
+
+            return View("Index", result);
         }
     }
 }

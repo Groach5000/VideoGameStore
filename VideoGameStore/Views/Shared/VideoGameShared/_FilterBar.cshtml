@@ -1,0 +1,38 @@
+﻿@using VideoGameStore.Data.Enums;
+
+@using (Html.BeginForm("Filter", "VideoGames", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter }))
+{
+    <h4>APPLY A FILTER: </h4>
+    <div class="row" style="max-width: 800px">
+        <div class="col">
+            <label for="MinPrice">Min Price: </label>
+            <select id="MinPrice" name="MinPrice" class="form-control" asp-items="Html.GetEnumSelectList<PriceRange>()"></select>
+        </div>
+        <div class="col">
+            <label for="MaxPrice">Max Price: </label>
+            <select id="MaxPrice" name="MaxPrice" class="form-control" asp-items="Html.GetEnumSelectList<PriceRange>()">
+                <option value="999" selected>No Max</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="GameAgeRating">Game Age Rating: </label>
+            <select id="GameAgeRating" name="GameAgeRating" class="form-control" asp-items="Html.GetEnumSelectList<GameAgeRating>()">
+                <option value="999" selected>Any Age Rating</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="GameGenre">Game Genre: </label>
+            <select id="GameGenre" name="GameGenre" class="form-control" asp-items="Html.GetEnumSelectList<GameGenre>()">
+                <option value="999" selected>Any Genre</option>
+            </select>
+        </div>
+        <div class="col">
+            <input class="btn btn-outline-success" type="submit" value="Filter" />
+            <a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Index", "VideoGames",
+                new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })';
+                return false;">
+                Sort by title
+            </a>
+        </div>
+    </div>
+}

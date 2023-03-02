@@ -10,10 +10,9 @@ namespace VideoGameStore.Models.searchModels
         public string? Title { get; set; }
 
         public string? Description { get; set; }
+        public PriceRange? MinPrice { get; set; }
 
-        public double? MaxPrice { get; set; }
-
-        public double? MinPrice { get; set; }
+        public PriceRange? MaxPrice { get; set; }
 
         public GameGenre? GameGenre { get; set; } // TODO:  Make List to allow for multiple genres
 

@@ -10,10 +10,8 @@
     @Html.Partial("../Shared/VideoGameShared/_FeaturedGames.cshtml")
 }
 
-<a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Index", "VideoGames",
-        new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })';
-    return false;">Sort by title
-</a>
+@*Game Filter Bar*@
+@Html.Partial("../Shared/VideoGameShared/_FilterBar.cshtml")
 
 @if (ViewBag.CurrentFilter != "" && ViewBag.CurrentFilter != null)
 {
