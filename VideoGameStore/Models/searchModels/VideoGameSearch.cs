@@ -17,11 +17,11 @@ namespace VideoGameStore.Models.searchModels
         public GameGenre? GameGenre { get; set; } // TODO:  Make List to allow for multiple genres
 
         //Releationships:
-        public List<Publisher_VideoGame>? Publishers_VideoGames { get; set; }
+        public string? Publisher { get; set; }
 
         public GameAgeRating? GameAgeRating { get; set; }
 
         public int? DeveloperId { get; set; }
-        public Developer? Developer { get; set; }
+        public string? Developer { get; set; }
     }
 }

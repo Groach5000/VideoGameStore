@@ -8,6 +8,8 @@ using VideoGameStore.Models.searchModels;
 using System.Collections.Generic;
 using VideoGameStore.Data.Enums;
 using Microsoft.Data.SqlClient;
+using System.Security.Policy;
+using System.Collections;
 
 namespace VideoGameStore.Controllers
 {
@@ -16,12 +18,17 @@ namespace VideoGameStore.Controllers
 
     {
         private readonly IVideoGamesService _service;
+        private readonly IPublishersService _publisherService;
+        private readonly IDevelopersService _developersService;
 
         private const int numberOfFeaturedItems = 3;
 
-        public VideoGamesController(IVideoGamesService service)
+        public VideoGamesController(IVideoGamesService service, IPublishersService publisherService, 
+            IDevelopersService developersService)
         {
             _service = service;
+            _publisherService = publisherService;
+            _developersService = developersService;
         }
 
         [AllowAnonymous]
@@ -35,6 +42,18 @@ namespace VideoGameStore.Controllers
             ViewBag.MaxPrice = PriceRange.NoMax;
             ViewBag.GameAgeRating = null;
             ViewBag.GameGenre = null;
+            ViewBag.Publisher = null;
+            ViewBag.Developer = null;
+            ViewBag.previousPublisherDescription = "";
+            ViewBag.previousDeveloperDescription = "";
+
+
+            var videoGameDropdownsData = await _service.GetNewVideoGameDropdownsValuesAsync();
+
+            ViewBag.Developers = new SelectList(videoGameDropdownsData.Developers, "Id", "CompanyName");
+            ViewBag.Publishers = new SelectList(videoGameDropdownsData.Publishers, "Id", "CompanyName");
+
+            //ViewBag.Publishers = await _publisherService.GetAllAsync();
 
             VideoGameSearch searchModel = new VideoGameSearch();
 
@@ -165,8 +184,9 @@ namespace VideoGameStore.Controllers
 
         [AllowAnonymous]
         public async Task<IActionResult> Filter(PriceRange minPrice, PriceRange? maxPrice, GameAgeRating? gameAgeRating,
-            GameGenre? gameGenre, string sortOrder)
+            GameGenre? gameGenre, int? publisher, int? developer, string sortOrder)
         {
+            
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.ShowFeatured = false;
@@ -175,13 +195,48 @@ namespace VideoGameStore.Controllers
             ViewBag.GameAgeRating = gameAgeRating;
             ViewBag.GameGenre = gameGenre;
 
+            // publisher and developer return the ID field.
+            ViewBag.Publisher = publisher;
+            ViewBag.Developer = developer;
+
+            if (publisher != null)
+            {
+                var searchedForPublisher = await _publisherService.GetByIdAsync((int)publisher);
+                ViewBag.previousPublisherDescription = searchedForPublisher.CompanyName;
+            }
+            else
+            {
+                ViewBag.previousPublisherDescription = "";
+            }
+
+            if ( developer != null)
+            {
+                var searchedForDeveloper = await _developersService.GetByIdAsync((int)developer); 
+                ViewBag.previousDeveloperDescription = searchedForDeveloper.CompanyName;
+            }
+            else
+            {
+                ViewBag.previousDeveloperDescription = "";
+            }
+
+            string publisherCompanyName = ViewBag.previousPublisherDescription;
+            string developerCompanyName = ViewBag.previousDeveloperDescription;
+
+
             VideoGameSearch searchModel = new VideoGameSearch()
             {
                 MinPrice = minPrice,
                 MaxPrice = maxPrice,
                 GameAgeRating = gameAgeRating,
                 GameGenre = gameGenre
+                Publisher = publisherCompanyName,
+                Developer = developerCompanyName
             };
+
+            var videoGameDropdownsData = await _service.GetNewVideoGameDropdownsValuesAsync();
+
+            ViewBag.Developers = new SelectList(videoGameDropdownsData.Developers, "Id", "CompanyName");
+            ViewBag.Publishers = new SelectList(videoGameDropdownsData.Publishers, "Id", "CompanyName");
 
             var allGames = await _service.GetAllAsync();
 

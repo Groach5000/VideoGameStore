@@ -6,10 +6,16 @@
     var previousGameAgeRating = ViewBag.GameAgeRating;
     var previousGameGenre = ViewBag.GameGenre;
 
+    var previousPublisher = ViewBag.Publisher;
+    var previousDeveloper = ViewBag.Developer;
+
     var previousMinPriceDescription = "";
     var previousMaxPriceDescription = "";
     var previousGameAgeRatingDescription = "";
     var previousGameGenreDescription = "";
+
+    var previousPublisherDescription = ViewBag.previousPublisherDescription;
+    var previousDeveloperDescription = ViewBag.previousDeveloperDescription;
 
     // Using EnumHelper to get the display strings of the used enums.
     foreach (var value in @EnumHelper<PriceRange>.GetValues(PriceRange.Free))
@@ -46,7 +52,7 @@
 @using (Html.BeginForm("Filter", "VideoGames", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter }))
 {
     <h4>APPLY A FILTER: </h4>
-    <div class="row" style="max-width: 800px">
+    <div class="row" style="max-width: 1000px">
         <div class="col">
             <label for="MinPrice">Min Price: </label>
             <select id="MinPrice" name="MinPrice" class="form-control" asp-items="Html.GetEnumSelectList<PriceRange>()">
@@ -71,6 +77,22 @@
                 <option value="@previousGameGenre" selected>@previousGameGenreDescription</option>
             </select>
         </div>
+
+        <div class="col">
+            <label for="Publisher">Publisher: </label>
+            <select id="Publisher" name="Publisher" class="form-control" asp-items="ViewBag.Publishers">
+                <option value="@previousPublisher" selected>@previousPublisherDescription</option>
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="Developer">Developer: </label>
+            <select id="Developer" name="Developer" class="form-control" asp-items="ViewBag.Developers">
+                <option value="@previousDeveloper" selected>@previousDeveloperDescription</option>
+                <option value="" ></option>
+            </select>
+        </div>
+
         <div class="col">
             <input class="btn btn-outline-success" type="submit" value="Filter" />
             @*<a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Index", "VideoGames",
