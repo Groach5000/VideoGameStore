@@ -81,15 +81,29 @@
         <div class="col">
             <label for="Publisher">Publisher: </label>
             <select id="Publisher" name="Publisher" class="form-control" asp-items="ViewBag.Publishers">
-                <option value="@previousPublisher" selected>@previousPublisherDescription</option>
-                <option value=""></option>
+                @if (previousPublisherDescription != "")
+                {
+                    <option value="@previousPublisher" selected>@previousPublisherDescription</option>
+                    <option value=""></option>
+                }
+                else
+                {
+                    <option value="" selected></option>
+                }
             </select>
         </div>
         <div class="col">
             <label for="Developer">Developer: </label>
             <select id="Developer" name="Developer" class="form-control" asp-items="ViewBag.Developers">
-                <option value="@previousDeveloper" selected>@previousDeveloperDescription</option>
-                <option value="" ></option>
+                @if (previousDeveloperDescription != "")
+                {
+                    <option value="@previousDeveloper" selected>@previousDeveloperDescription</option>
+                    <option value=""></option>
+                }
+                else
+                {
+                    <option value="" selected></option>
+                }
             </select>
         </div>
 

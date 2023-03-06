@@ -228,7 +228,7 @@ namespace VideoGameStore.Controllers
                 MinPrice = minPrice,
                 MaxPrice = maxPrice,
                 GameAgeRating = gameAgeRating,
-                GameGenre = gameGenre
+                GameGenre = gameGenre,
                 Publisher = publisherCompanyName,
                 Developer = developerCompanyName
             };
