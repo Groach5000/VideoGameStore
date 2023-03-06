@@ -7,10 +7,8 @@ namespace VideoGameStore.Models.searchModels
 {
     public class VideoGamesBusinessLogic
     {
-        private readonly IVideoGamesService _service;
-        public VideoGamesBusinessLogic(IVideoGamesService service)
+        public VideoGamesBusinessLogic()
         {
-            _service = service;
         }
 
         public IEnumerable<VideoGame> GetQueriedVideoGames(IEnumerable<VideoGame> result, VideoGameSearch searchModel, string sortOrder)
