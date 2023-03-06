@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
+using System.Security.Policy;
 using VideoGameStore.Data;
 using VideoGameStore.Data.Services;
 
@@ -7,8 +8,10 @@ namespace VideoGameStore.Models.searchModels
 {
     public class VideoGamesBusinessLogic
     {
-        public VideoGamesBusinessLogic()
+        AppDbContext _context;
+        public VideoGamesBusinessLogic(AppDbContext context)
         {
+            _context= context;
         }
 
         public IEnumerable<VideoGame> GetQueriedVideoGames(IEnumerable<VideoGame> result, VideoGameSearch searchModel, string sortOrder)
@@ -40,6 +43,46 @@ namespace VideoGameStore.Models.searchModels
                 default:
                     result = result.OrderBy(n => n.Title);
                     break;
+            }
+
+            return result;
+        }
+
+        public IEnumerable<VideoGame> GetPublisherAndDeveloperQueriedVideoGames(IEnumerable<VideoGame> result,
+            int? publisherId, int? developerId)
+        {
+            if (publisherId != null && developerId != null)
+            {
+                // Get all games with matching publisher
+                IEnumerable<VideoGame> gamesWithPublisher = from vgp in _context.Publishers_VideoGames
+                                                            join g in _context.VideoGames on vgp.VideoGameId equals g.Id
+                                                            join p in _context.Publishers on vgp.PublisherId equals p.Id
+                                                            where p.Id == (int)publisherId
+                                                            select g;
+
+                // Get all games with matching developer
+                IEnumerable<VideoGame> gamesWithDeveloper = from gwp in _context.VideoGames
+                                                            join d in _context.Developers on gwp.DeveloperId equals d.Id
+                                                            where d.Id == (int)developerId
+                                                            select gwp;
+
+                // Merge lists and only return matching values. 
+                result = gamesWithPublisher.Intersect(gamesWithDeveloper).ToList();
+            }
+            else if (publisherId != null)
+            {
+                result = from vgp in _context.Publishers_VideoGames
+                         join g in _context.VideoGames on vgp.VideoGameId equals g.Id
+                         join p in _context.Publishers on vgp.PublisherId equals p.Id
+                         where p.Id == (int)publisherId
+                         select g;
+            }
+            else if (developerId != null)
+            {
+                result = from gtf in result
+                         join d in _context.Developers on gtf.DeveloperId equals d.Id
+                         where d.Id == (int)developerId
+                         select gtf;
             }
 
             return result;

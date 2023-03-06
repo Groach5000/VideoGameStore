@@ -52,7 +52,7 @@
 @using (Html.BeginForm("Filter", "VideoGames", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter }))
 {
     <h4>APPLY A FILTER: </h4>
-    <div class="row" style="max-width: 1000px">
+    <div class="row" style="max-width: 1100px">
         <div class="col">
             <label for="MinPrice">Min Price: </label>
             <select id="MinPrice" name="MinPrice" class="form-control" asp-items="Html.GetEnumSelectList<PriceRange>()">
@@ -68,13 +68,29 @@
         <div class="col">
             <label for="GameAgeRating">Game Age Rating: </label>
             <select id="GameAgeRating" name="GameAgeRating" class="form-control" asp-items="Html.GetEnumSelectList<GameAgeRating>()">
-                <option value="@previousGameAgeRating" selected>@previousGameAgeRatingDescription</option>
+                @if (previousGameAgeRatingDescription != "")
+                {
+                    <option value="@previousGameAgeRating" selected>@previousGameAgeRatingDescription</option>
+                    <option value=""></option>
+                }
+                else
+                {
+                    <option value="" selected></option>
+                }
             </select>
         </div>
         <div class="col">
             <label for="GameGenre">Game Genre: </label>
             <select id="GameGenre" name="GameGenre" class="form-control" asp-items="Html.GetEnumSelectList<GameGenre>()">
-                <option value="@previousGameGenre" selected>@previousGameGenreDescription</option>
+                @if (previousGameGenreDescription != "")
+                {
+                    <option value="@previousGameGenre" selected>@previousGameGenreDescription</option>
+                    <option value=""></option>
+                }
+                else
+                {
+                    <option value="" selected></option>
+                }
             </select>
         </div>
 

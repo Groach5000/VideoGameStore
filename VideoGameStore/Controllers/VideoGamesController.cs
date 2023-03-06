@@ -74,10 +74,9 @@ namespace VideoGameStore.Controllers
 
             var allGames = await _service.GetAllAsync();
 
-            var searchLogic = new VideoGamesBusinessLogic();
+            var searchLogic = new VideoGamesBusinessLogic(_context);
 
             var result = searchLogic.GetQueriedVideoGames(allGames, searchModel, sortOrder);
-
 
             if (result.Count() >= numberOfFeaturedItems && searchString == null)
             {
@@ -247,43 +246,11 @@ namespace VideoGameStore.Controllers
 
             IEnumerable<VideoGame> gamesToFilter = await _service.GetAllAsync();
 
-            if (publisher != null && developer != null)
-            {
-                // Get all games with matching publisher
-                IEnumerable<VideoGame> gamesWithPublisher = from vgp in _context.Publishers_VideoGames
-                                                            join g in _context.VideoGames on vgp.VideoGameId equals g.Id
-                                                            join p in _context.Publishers on vgp.PublisherId equals p.Id
-                                                            where p.Id == (int)publisher
-                                                            select g;
+            var searchLogic = new VideoGamesBusinessLogic(_context);
 
-                // Get all games with matching developer
-                IEnumerable<VideoGame> gamesWithDeveloper = from gwp in _context.VideoGames
-                                join d in _context.Developers on gwp.DeveloperId equals d.Id
-                                where d.Id == (int)developer
-                                select gwp;
+            var gamesPubDevFiltered = searchLogic.GetPublisherAndDeveloperQueriedVideoGames(gamesToFilter, publisher, developer);
 
-                // Merge lists and only return matching values. 
-                gamesToFilter = gamesWithPublisher.Intersect(gamesWithDeveloper).ToList();
-            }
-            else if (publisher != null)
-            {
-                gamesToFilter = from vgp in _context.Publishers_VideoGames
-                                join g in _context.VideoGames on vgp.VideoGameId equals g.Id
-                                join p in _context.Publishers on vgp.PublisherId equals p.Id
-                                where p.Id == (int)publisher
-                                select g;
-            }
-            else if (developer != null)
-            {
-                gamesToFilter = from gtf in gamesToFilter
-                                join d in _context.Developers on gtf.DeveloperId equals d.Id
-                                where d.Id == (int)developer
-                                select gtf;
-            }
-
-            var searchLogic = new VideoGamesBusinessLogic();
-
-            var result = searchLogic.GetQueriedVideoGames(gamesToFilter, searchModel, sortOrder);
+            var result = searchLogic.GetQueriedVideoGames(gamesPubDevFiltered, searchModel, sortOrder);
 
             return View("Index", result);
         }
