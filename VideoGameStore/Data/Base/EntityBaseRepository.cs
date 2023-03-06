@@ -32,14 +32,10 @@ namespace VideoGameStore.Data.Base
 
             await _context.SaveChangesAsync();
         }
-        // Note that the SaveChangesAsync is not required, so the code could be simplified to the following:
-        // public async Task DeleteAsync(T deleteEntity) => _context.Set<T>().Remove(deleteEntity);
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            // Old code below that was in Publister Service, now using "Set<T>()" instead of Publister since we can
             // Take multiple models and perform this same action.
-            //var result = await _context.Publister.ToListAsync();
             return await _context.Set<T>().ToListAsync();
         }
         // Above could be simplified to: public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();

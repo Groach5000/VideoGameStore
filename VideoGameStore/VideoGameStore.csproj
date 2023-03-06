@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Utilities\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
 

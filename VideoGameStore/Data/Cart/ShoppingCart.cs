@@ -20,14 +20,20 @@ namespace VideoGameStore.Data.Cart
 
         public List<ShoppingCartItem> GetShoppingCartItems()
         {
-            return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems.Where( n => n.ShoppingCartId == ShoppingCartId).Include(n => n.VideoGame).ToList());
+            return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems
+                .Where( n => n.ShoppingCartId == ShoppingCartId)
+                .Include(n => n.VideoGame).ToList());
         }
 
-        public double GetShoppingCartTotal() => _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).Select(n => n.Amount * n.VideoGame.Price).Sum();
+        public double GetShoppingCartTotal() => _context.ShoppingCartItems
+            .Where(n => n.ShoppingCartId == ShoppingCartId)
+            .Select(n => n.Amount * n.VideoGame.Price).Sum();
 
         public void AddItemToCart(VideoGame videoGame)
         {
-            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId && n.VideoGame.Id == videoGame.Id);
+            var shoppingCartItem = _context.ShoppingCartItems
+                .FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId &&
+                n.VideoGame.Id == videoGame.Id);
 
             if (shoppingCartItem == null)
             {
@@ -47,7 +53,9 @@ namespace VideoGameStore.Data.Cart
 
         public void RemoveItemToCart(VideoGame videoGame)
         {
-            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId && n.VideoGame.Id == videoGame.Id);
+            var shoppingCartItem = _context.ShoppingCartItems
+                .FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId &&
+                n.VideoGame.Id == videoGame.Id);
 
             if (shoppingCartItem != null)
             {
@@ -78,7 +86,8 @@ namespace VideoGameStore.Data.Cart
 
         public async Task ClearShoppingCartAsync()
         {
-            var shoppingCartItems = await _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).ToListAsync();
+            var shoppingCartItems = await _context.ShoppingCartItems
+                .Where(n => n.ShoppingCartId == ShoppingCartId).ToListAsync();
 
             _context.ShoppingCartItems.RemoveRange(shoppingCartItems);
 

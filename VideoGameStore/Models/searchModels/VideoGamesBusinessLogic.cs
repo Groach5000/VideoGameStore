@@ -14,6 +14,13 @@ namespace VideoGameStore.Models.searchModels
             _context= context;
         }
 
+        /// <summary>
+        ///     Performs queries on video game list to filter by value in the search model. 
+        /// </summary>
+        /// <param name="result"> List of queriable videogames </param>
+        /// <param name="searchModel"> Filter criteria of parameters that can be null or to be searched for.</param>
+        /// <param name="sortOrder"> Order to sort the list by (Asc or Desc)</param>
+        /// <returns>Sorted List of filtered videogames sorted by sortOrder</returns>
         public IEnumerable<VideoGame> GetQueriedVideoGames(IEnumerable<VideoGame> result, VideoGameSearch searchModel, string sortOrder)
         {
             if (searchModel != null)
@@ -48,6 +55,13 @@ namespace VideoGameStore.Models.searchModels
             return result;
         }
 
+        /// <summary>
+        ///     Performs queries on video game list to filter by publisher and developer.
+        /// </summary>
+        /// <param name="result"> List of queriable videogames </param>
+        /// <param name="publisherId"> Publisher Id to search for, can be null</param>
+        /// <param name="developerId"> Developer Id to search for, can be null</param>
+        /// <returns>Sorted List of filtered videogames</returns>
         public IEnumerable<VideoGame> GetPublisherAndDeveloperQueriedVideoGames(IEnumerable<VideoGame> result,
             int? publisherId, int? developerId)
         {

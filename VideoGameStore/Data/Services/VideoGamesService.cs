@@ -89,7 +89,8 @@ namespace VideoGameStore.Data.Services
             };
 
             // Remove all the old Publister before updating with the new list of Publisters
-            var oldPublishersList = _context.Publishers_VideoGames.Where(n => n.VideoGameId == videoGameData.Id).ToList();
+            var oldPublishersList = _context.Publishers_VideoGames
+                .Where(n => n.VideoGameId == videoGameData.Id).ToList();
             _context.Publishers_VideoGames.RemoveRange(oldPublishersList);
 
             await _context.SaveChangesAsync();

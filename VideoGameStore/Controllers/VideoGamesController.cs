@@ -36,6 +36,13 @@ namespace VideoGameStore.Controllers
             _context= context;
         }
 
+        /// <summary>
+        ///     Displays home page and games. A filter can be applied by the search bar
+        /// </summary>
+        /// <param name="sortOrder"> Sort order either Asc or Desc</param>
+        /// <param name="currentFilter"> Current text filter applied by the previous navbar search to be updated/used. </param>
+        /// <param name="searchString"> Current text filter applied by the navbar search box. </param>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString)
         {
@@ -186,6 +193,18 @@ namespace VideoGameStore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        ///     Performs filter on all video games in the DB. 
+        /// </summary>
+        /// <param name="minPrice"> Min required price of a game, can be null </param>
+        /// <param name="maxPrice"> Max required price of a game, can be null </param>
+        /// <param name="gameAgeRating"> Game age rating, can be null</param>
+        /// <param name="gameGenre"> Game Genre, can be null</param>
+        /// <param name="publisher"> Publisher Id, can be null</param>
+        /// <param name="developer"> Developer Id, can be null</param>
+        /// <param name="sortOrder"> Sort order either Asc or Desc</param>
+        /// <param name="currentFilter"> Current text filter applied by the navbar search box. </param>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<IActionResult> Filter(PriceRange minPrice, PriceRange? maxPrice, GameAgeRating? gameAgeRating,
             GameGenre? gameGenre, int? publisher, int? developer, string sortOrder, string currentFilter)

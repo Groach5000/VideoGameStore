@@ -12,12 +12,8 @@ namespace VideoGameStore.Data.Services
             _context = context;
         }
         
-        
-        
         public async Task<List<Order>> GetOrderByUserIdAndRoleAsync(string userId, string userRole)
         {
-            //var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.VideoGame).Where(n => n.UserId == userId).ToListAsync();
-
             var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.VideoGame).Include(n => n.User).ToListAsync();
 
             if (userRole != "Admin")

@@ -6,7 +6,7 @@ namespace VideoGameStore.Data.Services
 {
     public interface IVideoGamesService : IEntityBaseRepository<VideoGame>
     {
-        // All now inherited by IEntityBaseRepository
+        // Most now inherited by IEntityBaseRepository
 
         Task<VideoGame> GetVideoGameByIdAsync(int id);
 
