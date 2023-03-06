@@ -40,7 +40,7 @@ namespace VideoGameStore.Controllers
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "" : "title_desc";
             ViewBag.ShowFeatured = false;
 
             ViewBag.MinPrice = PriceRange.Free;
@@ -188,11 +188,11 @@ namespace VideoGameStore.Controllers
 
         [AllowAnonymous]
         public async Task<IActionResult> Filter(PriceRange minPrice, PriceRange? maxPrice, GameAgeRating? gameAgeRating,
-            GameGenre? gameGenre, int? publisher, int? developer, string sortOrder)
+            GameGenre? gameGenre, int? publisher, int? developer, string sortOrder, string currentFilter)
         {
             
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "" : "title_desc";
             ViewBag.ShowFeatured = false;
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
@@ -202,6 +202,8 @@ namespace VideoGameStore.Controllers
             // publisher and developer return the ID field.
             ViewBag.Publisher = publisher;
             ViewBag.Developer = developer;
+
+            ViewBag.CurrentFilter = currentFilter;
 
             if (publisher != null)
             {
@@ -229,6 +231,8 @@ namespace VideoGameStore.Controllers
 
             VideoGameSearch searchModel = new VideoGameSearch()
             {
+                Title = currentFilter,
+                Description = currentFilter,
                 MinPrice = minPrice,
                 MaxPrice = maxPrice,
                 GameAgeRating = gameAgeRating,

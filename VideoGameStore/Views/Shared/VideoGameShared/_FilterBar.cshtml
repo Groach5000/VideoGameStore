@@ -17,6 +17,8 @@
     var previousPublisherDescription = ViewBag.previousPublisherDescription;
     var previousDeveloperDescription = ViewBag.previousDeveloperDescription;
 
+    var sortOrder = ViewBag.TitleSortParm;
+
     // Using EnumHelper to get the display strings of the used enums.
     foreach (var value in @EnumHelper<PriceRange>.GetValues(PriceRange.Free))
     {
@@ -49,7 +51,7 @@
 }
 
 
-@using (Html.BeginForm("Filter", "VideoGames", new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter }))
+@using (Html.BeginForm("Filter", "VideoGames", new { currentFilter = ViewBag.CurrentFilter }))
 {
     <h4>APPLY A FILTER: </h4>
     <div class="row" style="max-width: 1100px">
@@ -125,11 +127,34 @@
 
         <div class="col">
             <input class="btn btn-outline-success" type="submit" value="Filter" />
-            @*<a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Index", "VideoGames",
-                new { sortOrder = ViewBag.TitleSortParm, currentFilter = ViewBag.CurrentFilter })';
-                return false;">
-                Sort by title
-            </a>*@
+            @if (sortOrder != "")
+            {
+                <a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Filter", "VideoGames",
+                    new { sortOrder = "", currentFilter = ViewBag.CurrentFilter })';
+                    return false;"><i class="bi bi-sort-alpha-down"></i>Perform ascending sort
+                </a>
+            }
+            else
+            {
+                <a class="btn btn-outline-info" onclick="location.href='@Url.Action( "Filter", "VideoGames",
+                    new { sortOrder = "title_desc", currentFilter = ViewBag.CurrentFilter })';
+                    return false;">
+                    <i class="bi bi-sort-alpha-down-alt"></i>Perform descending sort
+                </a>
+            }
+            @*<select id="sortOrder" name="sortOrder" class="form-control">
+                @if (sortOrder != "")
+                {
+                    <option value="@sortOrder" selected>&#xF570; descending</option>
+                    <option value=""><i class="bi bi-sort-alpha-down"></i>ascending</option>
+                }
+                else
+                {
+                    <option value=""><i class="bi bi-sort-alpha-down"></i>ascending</option>
+                    <option value="title_desc">&#xF570; descending</option>
+                }
+
+            </select>*@
         </div>
     </div>
 }
