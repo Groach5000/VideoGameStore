@@ -5,14 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VideoGameStore.Models.searchModels;
-using System.Collections.Generic;
 using VideoGameStore.Data.Enums;
-using Microsoft.Data.SqlClient;
-using System.Security.Policy;
-using System.Collections;
 using VideoGameStore.Data;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace VideoGameStore.Controllers
 {
@@ -65,8 +59,6 @@ namespace VideoGameStore.Controllers
             ViewBag.Developers = new SelectList(videoGameDropdownsData.Developers, "Id", "CompanyName");
             ViewBag.Publishers = new SelectList(videoGameDropdownsData.Publishers, "Id", "CompanyName");
 
-            //ViewBag.Publishers = await _publisherService.GetAllAsync();
-
             VideoGameSearch searchModel = new VideoGameSearch();
 
             if (searchString == null)
@@ -81,9 +73,7 @@ namespace VideoGameStore.Controllers
 
             var allGames = await _service.GetAllAsync();
 
-            var searchLogic = new VideoGamesBusinessLogic(_context);
-
-            var result = searchLogic.GetQueriedVideoGames(allGames, searchModel, sortOrder);
+            var result = _service.GetQueriedVideoGames(allGames, searchModel, sortOrder);
 
             if (result.Count() >= numberOfFeaturedItems && searchString == null)
             {
@@ -209,7 +199,6 @@ namespace VideoGameStore.Controllers
         public async Task<IActionResult> Filter(PriceRange minPrice, PriceRange? maxPrice, GameAgeRating? gameAgeRating,
             GameGenre? gameGenre, int? publisher, int? developer, string sortOrder, string currentFilter)
         {
-            
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "" : "title_desc";
             ViewBag.ShowFeatured = false;
@@ -269,11 +258,9 @@ namespace VideoGameStore.Controllers
 
             IEnumerable<VideoGame> gamesToFilter = await _service.GetAllAsync();
 
-            var searchLogic = new VideoGamesBusinessLogic(_context);
+            var gamesPubDevFiltered = _service.GetPublisherAndDeveloperQueriedVideoGames(gamesToFilter, publisher, developer);
 
-            var gamesPubDevFiltered = searchLogic.GetPublisherAndDeveloperQueriedVideoGames(gamesToFilter, publisher, developer);
-
-            var result = searchLogic.GetQueriedVideoGames(gamesPubDevFiltered, searchModel, sortOrder);
+            var result = _service.GetQueriedVideoGames(gamesPubDevFiltered, searchModel, sortOrder);
 
             return View("Index", result);
         }

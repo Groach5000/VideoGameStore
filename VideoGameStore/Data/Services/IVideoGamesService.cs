@@ -1,6 +1,7 @@
 ﻿using VideoGameStore.Data.Base;
 using VideoGameStore.Data.ViewModels;
 using VideoGameStore.Models;
+using VideoGameStore.Models.searchModels;
 
 namespace VideoGameStore.Data.Services
 {
@@ -15,5 +16,11 @@ namespace VideoGameStore.Data.Services
         Task AddNewVideoGameAsync(NewVideoGameVM newVideoGameData);
 
         Task UpdateVideoGameAsync(NewVideoGameVM videoGameData);
+
+        IEnumerable<VideoGame> GetQueriedVideoGames(IEnumerable<VideoGame> result, 
+            VideoGameSearch searchModel, string sortOrder);
+
+        IEnumerable<VideoGame> GetPublisherAndDeveloperQueriedVideoGames(IEnumerable<VideoGame> result,
+            int? publisherId, int? developerId);
     }
 }
