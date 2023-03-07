@@ -196,7 +196,5 @@ namespace VideoGameStore.Data.Services
 
             return result;
         }
-
-
     }
 }

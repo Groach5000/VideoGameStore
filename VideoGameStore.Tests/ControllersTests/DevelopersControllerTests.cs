@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VideoGameStore.Tests
 {
-    public class DeveloperControllerTests
+    public class DevelopersControllerTests
     {
 
         private IDevelopersService _service;
         private DevelopersController _controller;
 
 
-        public DeveloperControllerTests()
+        public DevelopersControllerTests()
         {
             // Dependencies
             _service = A.Fake<IDevelopersService>();

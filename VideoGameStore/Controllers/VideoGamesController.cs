@@ -17,17 +17,15 @@ namespace VideoGameStore.Controllers
         private readonly IVideoGamesService _service;
         private readonly IPublishersService _publisherService;
         private readonly IDevelopersService _developerService;
-        private readonly AppDbContext _context;
 
         private const int numberOfFeaturedItems = 3;
 
         public VideoGamesController(IVideoGamesService service, IPublishersService publisherService, 
-            IDevelopersService developersService, AppDbContext context)
+            IDevelopersService developersService)
         {
             _service = service;
             _publisherService = publisherService;
             _developerService = developersService;
-            _context= context;
         }
 
         /// <summary>
