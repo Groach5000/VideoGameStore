@@ -34,7 +34,7 @@ namespace VideoGameStore.Models
 
         [DisplayName("Video game genre")]
         [Required(ErrorMessage = "Genre is required")]
-        public GameGenre GameGenres { get; set; }
+        public List<GameGenre> GameGenres { get; set; }
 
         [DisplayName("Video game age rating")]
         [Required(ErrorMessage = "Age rating is required, use 'RP' if rating pending")]

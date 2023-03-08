@@ -3,6 +3,7 @@ using VideoGameStore.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
 namespace VideoGameStore.Models
 {
@@ -28,7 +29,7 @@ namespace VideoGameStore.Models
         public DateTime ReleaseDate { get; set;}
 
         [Required(ErrorMessage = "Genre is required")]
-        public GameGenre GameGenre { get; set; } // TODO:  Make List to allow for multiple genres
+        public List<GameGenre> GameGenre { get; set; }
 
         //Releationships:
 

@@ -149,7 +149,7 @@ namespace VideoGameStore.Controllers
                 Price = videoGameDetails.Price,
                 ReleaseDate = videoGameDetails.ReleaseDate,
                 ImageURL = videoGameDetails.ImageURL,
-                GameGenres = videoGameDetails.GameGenre,
+                GameGenres = videoGameDetails.GameGenre.Select(n => n).ToList(),
                 GameAgeRating = videoGameDetails.GameAgeRating,
                 DeveloperId = videoGameDetails.DeveloperId,
                 PublisherIds = videoGameDetails.Publishers_VideoGames.Select(n => n.PublisherId).ToList(),

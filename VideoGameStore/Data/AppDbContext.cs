@@ -1,6 +1,7 @@
 ﻿using VideoGameStore.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using VideoGameStore.Data.Enums;
 
 namespace VideoGameStore.Data
 {
@@ -20,10 +21,17 @@ namespace VideoGameStore.Data
             });
 
             // Defining relationship of one to many, one game has many publishers
-            modelBuilder.Entity<Publisher_VideoGame>().HasOne(m => m.VideoGame).WithMany(am => am.Publishers_VideoGames).HasForeignKey(m => m.VideoGameId);
+            modelBuilder.Entity<Publisher_VideoGame>().HasOne(m => m.VideoGame)
+                .WithMany(am => am.Publishers_VideoGames).HasForeignKey(m => m.VideoGameId);
 
             // Defining relationship of one to many, one publisher has many games
-            modelBuilder.Entity<Publisher_VideoGame>().HasOne(m => m.Publisher).WithMany(am => am.Publishers_VideoGames).HasForeignKey(m => m.PublisherId);
+            modelBuilder.Entity<Publisher_VideoGame>().HasOne(m => m.Publisher)
+                .WithMany(am => am.Publishers_VideoGames).HasForeignKey(m => m.PublisherId);
+
+            modelBuilder.Entity<VideoGame>().Property(e => e.GameGenre)
+                .HasConversion(v => string.Join(",", v.Select(e => e.ToString("D")).ToArray()),
+                  v => v.Split(new[] { ',' }).Select(e => Enum.Parse(typeof(GameGenre), e))
+                    .Cast<GameGenre>().ToList());
 
             base.OnModelCreating(modelBuilder);
 

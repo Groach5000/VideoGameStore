@@ -14,7 +14,7 @@ namespace VideoGameStore.Models.searchModels
 
         public PriceRange? MaxPrice { get; set; }
 
-        public GameGenre? GameGenre { get; set; } // TODO:  Make List to allow for multiple genres
+        public GameGenre? GameGenre { get; set; }
 
         //Releationships:
         public string? Publisher { get; set; }

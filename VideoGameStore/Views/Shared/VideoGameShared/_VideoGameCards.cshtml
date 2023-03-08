@@ -40,7 +40,12 @@
                                             ;
                                         }
                                     </p>
-                                    <p class="card-text"><b>Genre: </b>@item.GameGenre</p>
+                                    <p class="card-text"><b>Genre: </b>
+                                        @foreach (var value in @item.GameGenre)
+                                        {
+                                            @value <b> </b>
+                                        }
+                                    </p>
                                     <p class="card-text">
                                         <b>Age Rating: </b>
                                         @*Using the EnumHelper Class to show the display name of the age rating instead
@@ -74,12 +79,27 @@
                                         <a class="btn btn-outline-info float-right" asp-action="Details" asp-route-id="@item.Id">
                                             <i class="bi bi-eye-fill"></i> Show Details
                                         </a>
+                                        @*@{
+                                            var discount = .85;
+                                            var newPrice = @item.Price * discount;
+                                        }*@
                                         @if (DateTime.Now >= item.ReleaseDate)
                                         {
                                             <a class="btn btn-success text-white" asp-controller="Orders"
-                                       asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
+                                                asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
                                                 <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))
                                             </a>
+                                            @* ToDo: implment a discount system, display similar to this, need to return discount to cart.
+                                                <div class="discount_block game_purchase_discount" data-price-final="1698">
+                                                <div class="discount_pct">-15%</div>
+                                                <div class="discount_prices">
+                                                    <div class="discount_original_price">@item.Price.ToString("c")</div>
+                                                </div>
+                                                <a class="btn btn-success text-white" asp-controller="Orders"
+                                                    asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
+                                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @newPrice.ToString("c"))
+                                                </a>
+                                            </div>*@
                                         }
                                     </p>
                                 </div>

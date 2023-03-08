@@ -34,7 +34,12 @@
                                 @Model.Developer.CompanyName
                             </a>
                         </p>
-                        <p class="card-text"><b>Category: </b>@Model.GameGenre</p>
+                        <p class="card-text"><b>Category: </b>
+                            @foreach (var value in @Model.GameGenre)
+                            {
+                                @value<b> </b>
+                            }
+                        </p>
                         <p class="card-text">
                             <b>Age Rating: </b>
                             @*Using the EnumHelper Class to show the display name of the age rating instead
