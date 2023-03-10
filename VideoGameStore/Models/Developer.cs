@@ -5,9 +5,6 @@ namespace VideoGameStore.Models
 {
     public class Developer : Company, IEntityBase
     {
-        [Key]
-        public int Id { get; set; }
-
 
         // Relationships
         //Added a "?" to List<VideoGame>? to make it nullable,

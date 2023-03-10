@@ -9,54 +9,20 @@
         <p>
             <h1>Add a new Publisher</h1>
         </p>
-        <div class="row">
-            <div class="col-md-8 offset-2">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    @*File Picture preview*@
-                    <div class="form-group text-center">
-                        <img  class="border-info rounded" style="max-width: 150px" id="LogoPreview" />
-                    </div>
-
-                    @*Each of the fields of the form*@
-                    <div class="form-group">
-                        <label asp-for="LogoURL" class="control-label"></label>
-                        <input asp-for="LogoURL" class="form-control" />
-                        <span asp-validation-for="LogoURL" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CompanyName" class="control-label"></label>
-                        <input asp-for="CompanyName" class="form-control" />
-                        <span asp-validation-for="CompanyName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="About" class="control-label"></label>
-                        <input asp-for="About" class="form-control" />
-                        <span asp-validation-for="About" class="text-danger"></span>
-                    </div>
-
-                    @*submit button*@
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-outline-success float-right" />
-                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
-                    </div>
-                </form>
-            </div>
-        </div>
+        @Html.Partial("../Shared/PublisherDeveloperShared/_Create.cshtml")
     </div>
 </div>
 
 @section Scripts{
     <script>
         //If an Error occurs due to oninvalid data, the following attempts to display the Picture again.
-        $(document).ready(function(){
+        $(document).ready(function () {
             var output = document.getElementById('LogoPreview');
             output.src = $("#LogoURL").val();
         })
 
         // Display picture upon URL posting
-        $("#LogoURL").on("change", function(){
+        $("#LogoURL").on("change", function () {
             var output = document.getElementById('LogoPreview');
             output.src = $(this).val();
         })

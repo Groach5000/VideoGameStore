@@ -1,4 +1,106 @@
 
+.discount_block {
+    position: relative;
+    display: flex;
+}
+
+.game_purchase_discount {
+    height: 32px;
+    overflow: hidden;
+}
+
+.game_purchase_discount .discount_original_price {
+    position: absolute;
+    left: auto;
+    right: 6px;
+    top: 2px;
+    font-size: 11px;
+}
+
+.game_purchase_discount .discount_original_price {
+    position: absolute;
+    left: 76px;
+    top: 2px;
+    font-size: 11px;
+}
+
+.discount_original_price {
+    position: relative;
+    width: fit-content;
+    color: #738895;
+    font-size: 11px;
+    line-height: 12px;
+}
+
+.discount_original_price:before {
+    content: '';
+    left: 0px;
+    right: 0px;
+    position: absolute;
+    top: 43%;
+    border-bottom: 1.5px solid #738895;
+    transform: skewY(-8deg);
+    box-shadow: 0 0 2px black;
+}
+
+
+element.style {
+}
+
+.game_purchase_discount .discount_original_price {
+    position: absolute;
+    left: auto;
+    right: 6px;
+    top: 2px;
+    font-size: 11px;
+}
+
+.game_purchase_discount .discount_original_price {
+    position: absolute;
+    left: 76px;
+    top: 2px;
+    font-size: 11px;
+}
+
+.discount_original_price {
+    position: relative;
+    width: fit-content;
+    color: #738895;
+    font-size: 11px;
+    line-height: 12px;
+}
+
+
+
+.game_area_purchase_game .game_purchase_action, .game_area_comingsoon .game_purchase_action, .game_area_offsite_purchase .game_purchase_action {
+    position: absolute;
+    right: 16px;
+    bottom: -17px;
+    left: 16px;
+    /* overflow-x: auto; */
+    white-space: nowrap;
+    text-align: right;
+}
+
+.game_purchase_action_bg > * {
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 2px;
+    vertical-align: middle;
+}
+
+.game_purchase_action_bg {
+    height: 32px;
+    vertical-align: bottom;
+    display: inline-block;
+    /* background-color: rgba(0,0,0,0.5); */
+    background-color: #000000;
+    padding: 2px 2px 2px 0px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    white-space: nowrap;
+    font-size: 0;
+}
 
 /*------------------------------------------------------
     Game Cards

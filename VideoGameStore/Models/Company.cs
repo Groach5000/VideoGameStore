@@ -4,6 +4,9 @@ namespace VideoGameStore.Models
 {
     public abstract class Company
     {
+        [Key]
+        public int Id { get; set; }
+
         [Display(Name ="Logo")] // for view displaying
         [Required(ErrorMessage = "Logo is required")] //is a required item to add it to the DB
         public string LogoURL { get; set; }

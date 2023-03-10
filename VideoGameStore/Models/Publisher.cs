@@ -9,8 +9,6 @@ namespace VideoGameStore.Models
 {
     public class Publisher : Company, IEntityBase
     {
-        [Key]
-        public int Id { get; set; }
 
         // Relationships
         //Added a "?" to List<Publisher_VideoGame>? to make it nullable,
