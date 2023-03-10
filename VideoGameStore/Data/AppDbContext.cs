@@ -33,6 +33,16 @@ namespace VideoGameStore.Data
                   v => v.Split(new[] { ',' }).Select(e => Enum.Parse(typeof(GameGenre), e))
                     .Cast<GameGenre>().ToList());
 
+            //modelBuilder.Entity<VideoGame>()
+            //    .HasMany<VideoGame_Discount>(s => s.Discounts)
+            //    .WithMany(c => c.VideoGames)
+            //    .Map(cs =>
+            //    {
+            //        cs.MapLeftKey("VideoGameRefId");
+            //        cs.MapRightKey("VideoGame_DiscountRefId");
+            //        cs.ToTable("VideoGameVideoGame_Discount");
+            //    });
+
             base.OnModelCreating(modelBuilder);
 
         }
@@ -52,5 +62,6 @@ namespace VideoGameStore.Data
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<VideoGame_Discount> VideoGameDiscounts { get; set; }
     }
 }

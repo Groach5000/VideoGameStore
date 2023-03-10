@@ -9,6 +9,11 @@ namespace VideoGameStore.Models
 {
     public class VideoGame : IEntityBase
     {
+        public VideoGame ()
+        {
+            this.Discounts = new HashSet<VideoGame_Discount>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -45,6 +50,6 @@ namespace VideoGameStore.Models
 
         public Developer? Developer { get; set;}
 
-
+        public virtual ICollection<VideoGame_Discount> Discounts { get; set; }
     }
 }

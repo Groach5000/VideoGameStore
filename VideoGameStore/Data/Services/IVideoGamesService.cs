@@ -22,5 +22,7 @@ namespace VideoGameStore.Data.Services
 
         IEnumerable<VideoGame> GetPublisherAndDeveloperQueriedVideoGames(IEnumerable<VideoGame> result,
             int? publisherId, int? developerId);
+
+        Task<IEnumerable<VideoGame>> GetAllVideoGamesAsync();
     }
 }

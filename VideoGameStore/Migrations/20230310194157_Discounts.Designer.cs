@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VideoGameStore.Data;
 
@@ -11,9 +12,11 @@ using VideoGameStore.Data;
 namespace VideoGameStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230310194157_Discounts")]
+    partial class Discounts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -481,21 +484,6 @@ namespace VideoGameStore.Migrations
                     b.ToTable("VideoGameDiscounts");
                 });
 
-            modelBuilder.Entity("VideoGameVideoGame_Discount", b =>
-                {
-                    b.Property<int>("DiscountsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VideoGamesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DiscountsId", "VideoGamesId");
-
-                    b.HasIndex("VideoGamesId");
-
-                    b.ToTable("VideoGameVideoGame_Discount");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -616,21 +604,6 @@ namespace VideoGameStore.Migrations
                         .IsRequired();
 
                     b.Navigation("Developer");
-                });
-
-            modelBuilder.Entity("VideoGameVideoGame_Discount", b =>
-                {
-                    b.HasOne("VideoGameStore.Models.VideoGame_Discount", null)
-                        .WithMany()
-                        .HasForeignKey("DiscountsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("VideoGameStore.Models.VideoGame", null)
-                        .WithMany()
-                        .HasForeignKey("VideoGamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("VideoGameStore.Models.Developer", b =>

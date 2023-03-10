@@ -69,7 +69,7 @@ namespace VideoGameStore.Controllers
             searchModel.Title = searchString;
             searchModel.Description = searchString;
 
-            var allGames = await _service.GetAllAsync();
+            var allGames = await _service.GetAllVideoGamesAsync();
 
             var result = _service.GetQueriedVideoGames(allGames, searchModel, sortOrder);
 
@@ -254,7 +254,7 @@ namespace VideoGameStore.Controllers
             ViewBag.Developers = new SelectList(videoGameDropdownsData.Developers, "Id", "CompanyName");
             ViewBag.Publishers = new SelectList(videoGameDropdownsData.Publishers, "Id", "CompanyName");
 
-            IEnumerable<VideoGame> gamesToFilter = await _service.GetAllAsync();
+            IEnumerable<VideoGame> gamesToFilter = await _service.GetAllVideoGamesAsync();
 
             var gamesPubDevFiltered = _service.GetPublisherAndDeveloperQueriedVideoGames(gamesToFilter, publisher, developer);
 

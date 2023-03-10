@@ -54,9 +54,22 @@ namespace VideoGameStore.Data.Services
         {
             var videoGameDetails = await _context.VideoGames
                 .Include(d => d.Developer)
+                .Include(dis => dis.Discounts)
                 .Include(pvg => pvg.Publishers_VideoGames)
                 .ThenInclude(p => p.Publisher)
                 .FirstOrDefaultAsync(n => n.Id == id);
+
+            return videoGameDetails;
+        }
+
+        public async Task<IEnumerable<VideoGame>> GetAllVideoGamesAsync()
+        {
+            var videoGameDetails = await _context.VideoGames
+                .Include(d => d.Developer)
+                .Include(dis => dis.Discounts)
+                .Include(pvg => pvg.Publishers_VideoGames)
+                .ThenInclude(p => p.Publisher)
+                .ToListAsync();
 
             return videoGameDetails;
         }
