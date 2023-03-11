@@ -6,6 +6,7 @@ using System.Linq;
 using VideoGameStore.Data.ViewModels;
 using VideoGameStore.Models.searchModels;
 using VideoGameStore.Data.Enums;
+using NLog.Filters;
 
 namespace VideoGameStore.Data.Services
 {
@@ -209,6 +210,66 @@ namespace VideoGameStore.Data.Services
             }
 
             return result;
+        }
+
+        public IEnumerable<VideoGameVM> GetVideoGameVM(IEnumerable<VideoGame> games)
+        {
+            var result = new List<VideoGameVM>();
+
+            foreach (var game in games)
+            {
+                string discount = "";
+                double discountedPrice = game.Price;
+                if (game.Discounts.Count() > 0)
+                {
+                    int i = 0;
+                    var gameDiscounts = game.Discounts.ToList();
+                    foreach (var dis in gameDiscounts)
+                    {
+                        if (dis.IsActive && DateTime.UtcNow < dis.DateExpiry)
+                        {
+                            if (dis.DiscountUnit == "percent")
+                            {
+                                discount = dis.DiscountValue.ToString() + "%";
+                                discountedPrice = game.Price - (game.Price * dis.DiscountValue) / 100;
+                            }
+                            else
+                            {
+                                discount = "$" + dis.DiscountValue.ToString();
+                                discountedPrice = game.Price - dis.DiscountValue;
+                            }
+                        }
+                    }
+                }
+
+                var videoGameDetails = new VideoGameVM()
+                {
+                    Id = game.Id,
+                    Title = game.Title,
+                    Description = game.Description,
+                    Price = game.Price,
+                    ImageURL = game.ImageURL,
+                    ReleaseDate = game.ReleaseDate,
+                    GameGenres = game.GameGenres,
+                    GameAgeRating = game.GameAgeRating,
+                    PublisherIds = new List<int>(),
+                    DeveloperId = game.DeveloperId,
+                    Discount = discount,
+                    DiscountedPrice = discountedPrice
+                };
+
+                if (game.Publishers_VideoGames != null)
+                {
+                    foreach (var pub in game.Publishers_VideoGames)
+                    {
+                        videoGameDetails.PublisherIds.Add(pub.PublisherId);
+                    }
+                }
+
+                result.Add(videoGameDetails);
+            }
+
+            return result;  
         }
     }
 }

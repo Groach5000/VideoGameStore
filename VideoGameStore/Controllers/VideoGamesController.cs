@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using VideoGameStore.Models.searchModels;
 using VideoGameStore.Data.Enums;
 using VideoGameStore.Data;
+using NLog.Filters;
 
 namespace VideoGameStore.Controllers
 {
@@ -73,60 +74,7 @@ namespace VideoGameStore.Controllers
 
             var filterResult = _service.GetQueriedVideoGames(allGames, searchModel, sortOrder);
 
-            var result = new List<VideoGameVM>();
-
-            foreach (var game in filterResult)
-            {
-                string discount = "";
-                double discountedPrice = game.Price;
-                if (game.Discounts.Count() > 0 )
-                {
-                    int i = 0;
-                    var gameDiscounts = game.Discounts.ToList();
-                    foreach (var dis in gameDiscounts)
-                    {
-                        if(dis.IsActive && DateTime.UtcNow < dis.DateExpiry)
-                        {
-                            if (dis.DiscountUnit == "percent")
-                            {
-                                discount = dis.DiscountValue.ToString() + "%";
-                                discountedPrice = game.Price - (game.Price * dis.DiscountValue) / 100;
-                            }
-                            else
-                            {
-                                discount = "$" + dis.DiscountValue.ToString();
-                                discountedPrice = game.Price - dis.DiscountValue;
-                            }
-                        }
-                    }
-                }
-
-                var videoGameDetails = new VideoGameVM()
-                {
-                    Id = game.Id,
-                    Title = game.Title,
-                    Description = game.Description,
-                    Price = game.Price,
-                    ImageURL = game.ImageURL,
-                    ReleaseDate = game.ReleaseDate,
-                    GameGenres = game.GameGenres,
-                    GameAgeRating = game.GameAgeRating,
-                    PublisherIds = new List<int>(),
-                    DeveloperId = game.DeveloperId,
-                    Discount = discount,
-                    DiscountedPrice = discountedPrice
-                };
-
-                if ( game.Publishers_VideoGames != null)
-                {
-                    foreach (var pub in game.Publishers_VideoGames)
-                    {
-                        videoGameDetails.PublisherIds.Add(pub.PublisherId);
-                    }
-                }
-
-                result.Add(videoGameDetails);
-            }
+            var result = _service.GetVideoGameVM(filterResult);
 
             if (result.Count() >= numberOfFeaturedItems && searchString == null)
             {
@@ -314,7 +262,9 @@ namespace VideoGameStore.Controllers
 
             var gamesPubDevFiltered = _service.GetPublisherAndDeveloperQueriedVideoGames(gamesToFilter, publisher, developer);
 
-            var result = _service.GetQueriedVideoGames(gamesPubDevFiltered, searchModel, sortOrder);
+            var filterResult = _service.GetQueriedVideoGames(gamesPubDevFiltered, searchModel, sortOrder);
+            
+            var result = _service.GetVideoGameVM(filterResult);
 
             return View("Index", result);
         }
