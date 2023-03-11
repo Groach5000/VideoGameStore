@@ -95,7 +95,7 @@ namespace VideoGameStore.Data
                                 ImageURL = "https://image.api.playstation.com/cdn/UP1822/CUSA13632_00/GuFQKWlrIVODEA1su20fCOrNZEYX5CB9.png",
                                 ReleaseDate = new DateTime(2017, 02, 23),
                                 DeveloperId = 1,
-                                GameGenre = new List<GameGenre>() {GameGenre.Platformer }
+                                GameGenres = new List<GameGenre>() {GameGenre.Platformer }
                             },
                             new VideoGame()
                             {
@@ -105,7 +105,7 @@ namespace VideoGameStore.Data
                                 ImageURL = "https://cdn1.epicgames.com/min/offer/1200x1600-1200x1600-e92fa6b99bb20c9edee19c361b8853b9.jpg",
                                 ReleaseDate = new DateTime(2020, 09, 17),
                                 DeveloperId = 2,
-                                GameGenre = new List<GameGenre>() {GameGenre.Action }
+                                GameGenres = new List<GameGenre>() {GameGenre.Action }
                             },
                             new VideoGame()
                             {
@@ -115,7 +115,7 @@ namespace VideoGameStore.Data
                                 ImageURL = "https://upload.wikimedia.org/wikipedia/en/1/1c/Diablo_IV_cover_art.png",
                                 ReleaseDate = new DateTime(2023, 06, 2),
                                 DeveloperId = 3,
-                                GameGenre = new List<GameGenre>() {GameGenre.RPG }
+                                GameGenres = new List<GameGenre>() {GameGenre.RPG }
                             }
                         });
                     context.SaveChanges();

@@ -28,7 +28,7 @@ namespace VideoGameStore.Data
             modelBuilder.Entity<Publisher_VideoGame>().HasOne(m => m.Publisher)
                 .WithMany(am => am.Publishers_VideoGames).HasForeignKey(m => m.PublisherId);
 
-            modelBuilder.Entity<VideoGame>().Property(e => e.GameGenre)
+            modelBuilder.Entity<VideoGame>().Property(e => e.GameGenres)
                 .HasConversion(v => string.Join(",", v.Select(e => e.ToString("D")).ToArray()),
                   v => v.Split(new[] { ',' }).Select(e => Enum.Parse(typeof(GameGenre), e))
                     .Cast<GameGenre>().ToList());

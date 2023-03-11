@@ -71,7 +71,62 @@ namespace VideoGameStore.Controllers
 
             var allGames = await _service.GetAllVideoGamesAsync();
 
-            var result = _service.GetQueriedVideoGames(allGames, searchModel, sortOrder);
+            var filterResult = _service.GetQueriedVideoGames(allGames, searchModel, sortOrder);
+
+            var result = new List<VideoGameVM>();
+
+            foreach (var game in filterResult)
+            {
+                string discount = "";
+                double discountedPrice = game.Price;
+                if (game.Discounts.Count() > 0 )
+                {
+                    int i = 0;
+                    var gameDiscounts = game.Discounts.ToList();
+                    foreach (var dis in gameDiscounts)
+                    {
+                        if(dis.IsActive && DateTime.UtcNow < dis.DateExpiry)
+                        {
+                            if (dis.DiscountUnit == "percent")
+                            {
+                                discount = dis.DiscountValue.ToString() + "%";
+                                discountedPrice = game.Price - (game.Price * dis.DiscountValue) / 100;
+                            }
+                            else
+                            {
+                                discount = "$" + dis.DiscountValue.ToString();
+                                discountedPrice = game.Price - dis.DiscountValue;
+                            }
+                        }
+                    }
+                }
+
+                var videoGameDetails = new VideoGameVM()
+                {
+                    Id = game.Id,
+                    Title = game.Title,
+                    Description = game.Description,
+                    Price = game.Price,
+                    ImageURL = game.ImageURL,
+                    ReleaseDate = game.ReleaseDate,
+                    GameGenres = game.GameGenres,
+                    GameAgeRating = game.GameAgeRating,
+                    PublisherIds = new List<int>(),
+                    DeveloperId = game.DeveloperId,
+                    Discount = discount,
+                    DiscountedPrice = discountedPrice
+                };
+
+                if ( game.Publishers_VideoGames != null)
+                {
+                    foreach (var pub in game.Publishers_VideoGames)
+                    {
+                        videoGameDetails.PublisherIds.Add(pub.PublisherId);
+                    }
+                }
+
+                result.Add(videoGameDetails);
+            }
 
             if (result.Count() >= numberOfFeaturedItems && searchString == null)
             {
@@ -80,30 +135,6 @@ namespace VideoGameStore.Controllers
                 ViewBag.ShowFeatured = true;
             }
 
-            foreach (var game in result)
-            {
-                if (game.Discounts.Count() > 0 )
-                {
-                    int i = 0;
-                    var gameDiscounts = game.Discounts.ToList();
-                    foreach (var discount in gameDiscounts)
-                    {
-                        if( discount.IsActive && DateTime.UtcNow < discount.DateExpiry)
-                        {
-                            if (discount.DiscountUnit == "percent")
-                            {
-                                ViewBag.Discount = discount.DiscountValue.ToString() + "%";
-                                ViewBag.DiscountedPrice = game.Price - (game.Price * discount.DiscountValue) / 100;
-                            }
-                            else
-                            {
-                                ViewBag.Discount = "$" + discount.DiscountValue.ToString();
-                                ViewBag.DiscountedPrice = game.Price - discount.DiscountValue;
-                            }
-                        }
-                    }
-                }
-            }
 
             return View(result);
         }
@@ -174,7 +205,7 @@ namespace VideoGameStore.Controllers
                 Price = videoGameDetails.Price,
                 ReleaseDate = videoGameDetails.ReleaseDate,
                 ImageURL = videoGameDetails.ImageURL,
-                GameGenres = videoGameDetails.GameGenre.Select(n => n).ToList(),
+                GameGenres = videoGameDetails.GameGenres.Select(n => n).ToList(),
                 GameAgeRating = videoGameDetails.GameAgeRating,
                 DeveloperId = videoGameDetails.DeveloperId,
                 PublisherIds = videoGameDetails.Publishers_VideoGames.Select(n => n.PublisherId).ToList(),

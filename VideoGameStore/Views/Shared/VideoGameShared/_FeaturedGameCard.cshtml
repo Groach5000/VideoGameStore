@@ -1,5 +1,5 @@
 ﻿@using VideoGameStore.Data.Enums;
-@model VideoGame
+@model VideoGameVM
 
 <div class="video-game-element">
     <a asp-action="Details" asp-route-id="@Model.Id">
@@ -31,7 +31,7 @@
                 }
             </p>
             <p class="card-text"><b>Genre: </b>
-                @foreach (var value in @Model.GameGenre)
+                @foreach (var value in @Model.GameGenres)
                 {
                     @value<b> </b>
                 }

@@ -34,7 +34,7 @@ namespace VideoGameStore.Models
         public DateTime ReleaseDate { get; set;}
 
         [Required(ErrorMessage = "Genre is required")]
-        public List<GameGenre> GameGenre { get; set; }
+        public List<GameGenre> GameGenres { get; set; }
 
         //Releationships:
 

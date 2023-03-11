@@ -26,7 +26,7 @@ namespace VideoGameStore.Data.Services
                 Description = newVideoGameData.Description,
                 Price = newVideoGameData.Price,
                 ReleaseDate = newVideoGameData.ReleaseDate,
-                GameGenre = newVideoGameData.GameGenres.Select(n => n).ToList(),
+                GameGenres = newVideoGameData.GameGenres.Select(n => n).ToList(),
                 GameAgeRating = newVideoGameData.GameAgeRating,
                 DeveloperId = newVideoGameData.DeveloperId,
                 ImageURL = newVideoGameData.ImageURL
@@ -95,7 +95,7 @@ namespace VideoGameStore.Data.Services
                 videoGame.Description = videoGameData.Description;
                 videoGame.Price = videoGameData.Price;
                 videoGame.ReleaseDate = videoGameData.ReleaseDate;
-                videoGame.GameGenre = videoGameData.GameGenres.Select(n => n).ToList();
+                videoGame.GameGenres = videoGameData.GameGenres.Select(n => n).ToList();
                 videoGame.GameAgeRating = videoGameData.GameAgeRating;
                 videoGame.DeveloperId = videoGameData.DeveloperId;
                 videoGame.ImageURL = videoGameData.ImageURL;
@@ -145,7 +145,7 @@ namespace VideoGameStore.Data.Services
                 if (searchModel.MinPrice.HasValue)
                     result = result.Where(x => x.Price >= (int)searchModel.MinPrice).ToList();
                 if (searchModel.GameGenre.HasValue)
-                    result = result.Where(x => x.GameGenre.Contains((GameGenre)searchModel.GameGenre)).ToList();
+                    result = result.Where(x => x.GameGenres.Contains((GameGenre)searchModel.GameGenre)).ToList();
                 if (searchModel.GameAgeRating.HasValue)
                     result = result.Where(x => x.GameAgeRating == searchModel.GameAgeRating).ToList();
             }

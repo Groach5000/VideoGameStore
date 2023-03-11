@@ -1,11 +1,5 @@
 ﻿@using VideoGameStore.Data.Enums;
-@model IEnumerable<VideoGame>
-
-
-@{
-    string discountedPrice = ViewBag.DiscountedPrice.ToString("c");
-    string discount = ViewBag.Discount.ToString();
-}
+@model IEnumerable<VideoGameVM>
 
 <div class="card-container">
     <div class="row">
@@ -46,7 +40,7 @@
                                         }
                                     </p>
                                     <p class="card-text"><b>Genre: </b>
-                                        @foreach (var value in @item.GameGenre)
+                                        @foreach (var value in @item.GameGenres)
                                         {
                                             @value <b> </b>
                                         }
@@ -86,14 +80,14 @@
                                         </a>
                                         @if (DateTime.Now >= item.ReleaseDate)
                                         {
-                                            if (item.Discounts.Count() > 0 )
+                                            if (item.Discount != "" )
                                             {
                                                  @*ToDo: need to return discount to cart.*@
-                                                <b class="discount_pct"> - @discount</b>
+                                                <b class="discount_pct"> - @item.Discount</b>
                                                 <b class="discount_original_price">@item.Price.ToString("c")</b>
                                                 <a class="btn btn-success text-white" asp-controller="Orders"
                                                     asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
-                                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @discountedPrice)
+                                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.DiscountedPrice)
                                                 </a>
                                             }
                                             else

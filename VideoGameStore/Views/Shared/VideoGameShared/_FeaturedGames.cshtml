@@ -1,10 +1,11 @@
 ﻿@using VideoGameStore.Data.Enums;
-@model IEnumerable<VideoGame>
+@model IEnumerable<VideoGameVM>
 
 @{
-    VideoGame featuredGame1 = ViewBag.featuredGames[0];
-    VideoGame featuredGame2 = ViewBag.featuredGames[1];
-    VideoGame featuredGame3 = ViewBag.featuredGames[2];
+    // ToDo: Make the featured games VideoGameVM to allow displaying of discounts.
+    VideoGameVM featuredGame1 = ViewBag.featuredGames[0];
+    VideoGameVM featuredGame2 = ViewBag.featuredGames[1];
+    VideoGameVM featuredGame3 = ViewBag.featuredGames[2];
 }
 
 @*ToDo: There exists a bug where if you refesh the page and the featured game is not #1, then the next/prevous buttons will be
