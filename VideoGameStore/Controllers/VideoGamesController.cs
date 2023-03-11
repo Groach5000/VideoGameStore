@@ -80,6 +80,31 @@ namespace VideoGameStore.Controllers
                 ViewBag.ShowFeatured = true;
             }
 
+            foreach (var game in result)
+            {
+                if (game.Discounts.Count() > 0 )
+                {
+                    int i = 0;
+                    var gameDiscounts = game.Discounts.ToList();
+                    foreach (var discount in gameDiscounts)
+                    {
+                        if( discount.IsActive && DateTime.UtcNow < discount.DateExpiry)
+                        {
+                            if (discount.DiscountUnit == "percent")
+                            {
+                                ViewBag.Discount = discount.DiscountValue.ToString() + "%";
+                                ViewBag.DiscountedPrice = game.Price - (game.Price * discount.DiscountValue) / 100;
+                            }
+                            else
+                            {
+                                ViewBag.Discount = "$" + discount.DiscountValue.ToString();
+                                ViewBag.DiscountedPrice = game.Price - discount.DiscountValue;
+                            }
+                        }
+                    }
+                }
+            }
+
             return View(result);
         }
 

@@ -2,6 +2,11 @@
 @model IEnumerable<VideoGame>
 
 
+@{
+    string discountedPrice = ViewBag.DiscountedPrice.ToString("c");
+    string discount = ViewBag.Discount.ToString();
+}
+
 <div class="card-container">
     <div class="row">
         <div class="col">
@@ -79,27 +84,25 @@
                                         <a class="btn btn-outline-info float-right" asp-action="Details" asp-route-id="@item.Id">
                                             <i class="bi bi-eye-fill"></i> Show Details
                                         </a>
-                                        @*@{
-                                            var discount = .85;
-                                            var newPrice = @item.Price * discount;
-                                        }*@
                                         @if (DateTime.Now >= item.ReleaseDate)
                                         {
-                                            <a class="btn btn-success text-white" asp-controller="Orders"
-                                                asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
-                                                <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))
-                                            </a>
-                                            @* ToDo: implment a discount system, display similar to this, need to return discount to cart.
-                                                <div class="discount_block game_purchase_discount" data-price-final="1698">
-                                                <div class="discount_pct">-15%</div>
-                                                <div class="discount_prices">
-                                                    <div class="discount_original_price">@item.Price.ToString("c")</div>
-                                                </div>
+                                            if (item.Discounts.Count() > 0 )
+                                            {
+                                                 @*ToDo: need to return discount to cart.*@
+                                                <b class="discount_pct"> - @discount</b>
+                                                <b class="discount_original_price">@item.Price.ToString("c")</b>
                                                 <a class="btn btn-success text-white" asp-controller="Orders"
                                                     asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
-                                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @newPrice.ToString("c"))
+                                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @discountedPrice)
                                                 </a>
-                                            </div>*@
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-success text-white" asp-controller="Orders"
+                                                    asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
+                                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))
+                                                </a>
+                                            }
                                         }
                                     </p>
                                 </div>
