@@ -19,7 +19,9 @@ namespace VideoGameStore.Models
         public List<GameGenre> GameGenres { get; set; }
         public GameAgeRating GameAgeRating { get; set; }
         public List<int> PublisherIds { get; set; }
+        public List<Publisher_VideoGame>? Publishers_VideoGames { get; set; }
         public int DeveloperId { get;set; }
+        public Developer? Developer { get; set; }
         public string? Discount { get; set; }
         public double? DiscountedPrice { get; set; }
 

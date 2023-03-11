@@ -74,7 +74,7 @@ namespace VideoGameStore.Controllers
 
             var filterResult = _service.GetQueriedVideoGames(allGames, searchModel, sortOrder);
 
-            var result = _service.GetVideoGameVM(filterResult);
+            var result = _service.GetMultipleVideoGamesVM(filterResult);
 
             if (result.Count() >= numberOfFeaturedItems && searchString == null)
             {
@@ -98,7 +98,8 @@ namespace VideoGameStore.Controllers
             }
             else
             {
-                return View(videoGameDetails);
+                var result = _service.GetVideoGameVM(videoGameDetails);
+                return View(result);
             }
         }
 
@@ -264,7 +265,7 @@ namespace VideoGameStore.Controllers
 
             var filterResult = _service.GetQueriedVideoGames(gamesPubDevFiltered, searchModel, sortOrder);
             
-            var result = _service.GetVideoGameVM(filterResult);
+            var result = _service.GetMultipleVideoGamesVM(filterResult);
 
             return View("Index", result);
         }

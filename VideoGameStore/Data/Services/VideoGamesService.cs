@@ -212,64 +212,85 @@ namespace VideoGameStore.Data.Services
             return result;
         }
 
-        public IEnumerable<VideoGameVM> GetVideoGameVM(IEnumerable<VideoGame> games)
+        public IEnumerable<VideoGameVM> GetMultipleVideoGamesVM(IEnumerable<VideoGame> games)
         {
             var result = new List<VideoGameVM>();
 
             foreach (var game in games)
             {
-                string discount = "";
-                double discountedPrice = game.Price;
-                if (game.Discounts.Count() > 0)
-                {
-                    int i = 0;
-                    var gameDiscounts = game.Discounts.ToList();
-                    foreach (var dis in gameDiscounts)
-                    {
-                        if (dis.IsActive && DateTime.UtcNow < dis.DateExpiry)
-                        {
-                            if (dis.DiscountUnit == "percent")
-                            {
-                                discount = dis.DiscountValue.ToString() + "%";
-                                discountedPrice = game.Price - (game.Price * dis.DiscountValue) / 100;
-                            }
-                            else
-                            {
-                                discount = "$" + dis.DiscountValue.ToString();
-                                discountedPrice = game.Price - dis.DiscountValue;
-                            }
-                        }
-                    }
-                }
-
-                var videoGameDetails = new VideoGameVM()
-                {
-                    Id = game.Id,
-                    Title = game.Title,
-                    Description = game.Description,
-                    Price = game.Price,
-                    ImageURL = game.ImageURL,
-                    ReleaseDate = game.ReleaseDate,
-                    GameGenres = game.GameGenres,
-                    GameAgeRating = game.GameAgeRating,
-                    PublisherIds = new List<int>(),
-                    DeveloperId = game.DeveloperId,
-                    Discount = discount,
-                    DiscountedPrice = discountedPrice
-                };
-
-                if (game.Publishers_VideoGames != null)
-                {
-                    foreach (var pub in game.Publishers_VideoGames)
-                    {
-                        videoGameDetails.PublisherIds.Add(pub.PublisherId);
-                    }
-                }
+                var videoGameDetails = CreateVideoGameVM(game);
 
                 result.Add(videoGameDetails);
             }
 
             return result;  
+        }
+
+        public VideoGameVM GetVideoGameVM(VideoGame game)
+        {
+            return CreateVideoGameVM(game);
+        }
+
+        private Tuple<string, double> GetDiscount (VideoGame game)
+        {
+            string discount = "";
+            double discountedPrice = game.Price;
+            if (game.Discounts.Count() > 0)
+            {
+                int i = 0;
+                var gameDiscounts = game.Discounts.ToList();
+                foreach (var dis in gameDiscounts)
+                {
+                    if (dis.IsActive && DateTime.UtcNow < dis.DateExpiry)
+                    {
+                        if (dis.DiscountUnit == "percent")
+                        {
+                            discount = dis.DiscountValue.ToString() + "%";
+                            discountedPrice = game.Price - (game.Price * dis.DiscountValue) / 100;
+                        }
+                        else
+                        {
+                            discount = "$" + dis.DiscountValue.ToString();
+                            discountedPrice = game.Price - dis.DiscountValue;
+                        }
+                    }
+                }
+            }
+
+            return Tuple.Create(discount, discountedPrice);
+        }
+
+        private VideoGameVM CreateVideoGameVM (VideoGame game)
+        {
+            var discount = GetDiscount(game);
+
+            var videoGameDetails = new VideoGameVM()
+            {
+                Id = game.Id,
+                Title = game.Title,
+                Description = game.Description,
+                Price = game.Price,
+                ImageURL = game.ImageURL,
+                ReleaseDate = game.ReleaseDate,
+                GameGenres = game.GameGenres,
+                GameAgeRating = game.GameAgeRating,
+                PublisherIds = new List<int>(),
+                Publishers_VideoGames = game.Publishers_VideoGames,
+                DeveloperId = game.DeveloperId,
+                Developer = game.Developer,
+                Discount = discount.Item1,
+                DiscountedPrice = discount.Item2
+            };
+
+            if (game.Publishers_VideoGames != null)
+            {
+                foreach (var pub in game.Publishers_VideoGames)
+                {
+                    videoGameDetails.PublisherIds.Add(pub.PublisherId);
+                }
+            }
+
+            return videoGameDetails;
         }
     }
 }

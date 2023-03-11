@@ -25,6 +25,8 @@ namespace VideoGameStore.Data.Services
 
         Task<IEnumerable<VideoGame>> GetAllVideoGamesAsync();
 
-        IEnumerable<VideoGameVM> GetVideoGameVM(IEnumerable<VideoGame> games);
+        IEnumerable<VideoGameVM> GetMultipleVideoGamesVM(IEnumerable<VideoGame> games);
+
+        VideoGameVM GetVideoGameVM(VideoGame game);
     }
 }

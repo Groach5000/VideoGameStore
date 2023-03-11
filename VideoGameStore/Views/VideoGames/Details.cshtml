@@ -1,5 +1,5 @@
 ﻿@using VideoGameStore.Data.Enums;
-@model VideoGame
+@model VideoGameVM
 
 @{
     ViewData["Title"] = "Video game details";
@@ -69,11 +69,11 @@
                             <hr />
                             <b>Publishers: </b>
                             <div class="row">
-                                @foreach (var publister in Model.Publishers_VideoGames)
+                                @foreach (var publisher in Model.Publishers_VideoGames)
                                 {
                                     <div class="column text-md-start">
-                                        <img class="border-info rounded" src="@publister.Publisher.LogoURL" style="max-width: 150px" />
-                                        <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publister.PublisherId">@publister.Publisher.CompanyName</a>
+                                        <img class="border-info rounded" src="@publisher.Publisher.LogoURL" style="max-width: 150px" />
+                                        <a asp-controller="Publishers" asp-action="Details" asp-route-id="@publisher.PublisherId">@publisher.Publisher.CompanyName</a>
                                     </div>
                                 }
                             </div>
@@ -87,8 +87,23 @@
                             <a class="btn btn-outline-info float-right" asp-action="Index">Back to List</a>
                             @if (DateTime.Now >= Model.ReleaseDate)
                             {
-                                <a class="btn btn-success text-white" asp-controller="Orders" asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
-                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))</a>
+                                if (Model.Discount != "")
+                                {
+                                    @*ToDo: need to return discount to cart.*@
+                                    <b class="discount_pct"> - @Model.Discount</b>
+                                    <b class="discount_original_price">@Model.Price.ToString("c")</b>
+                                    <a class="btn btn-success text-white" asp-controller="Orders"
+                                        asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.DiscountedPrice)
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success text-white" asp-controller="Orders"
+                                        asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.Price.ToString("c"))
+                                    </a>
+                                }
                             }
                         </p>
                     </div>
