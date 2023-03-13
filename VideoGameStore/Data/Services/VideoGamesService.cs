@@ -252,6 +252,10 @@ namespace VideoGameStore.Data.Services
                         {
                             discount = "$" + dis.DiscountValue.ToString();
                             discountedPrice = game.Price - dis.DiscountValue;
+                            if ( discountedPrice < 0.0)
+                            {
+                                discountedPrice = 0.0; 
+                            }
                         }
                     }
                 }
