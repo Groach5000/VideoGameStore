@@ -10,13 +10,13 @@ This is a ASP.NET MVC project designed to perform the functionality of a video g
 
 
 ## GIF User Interface:
-[![](Readme_Images/VideoGameStoreAnimation_6Mar2023.gif)](https://github.com/Groach5000/VideoGameStore)
+[![](Readme_Images/VideoGameStoreAnimation_13Mar2023.gif)](https://github.com/Groach5000/VideoGameStore)
 
 ## JWT testing on Postman:
 [![](Readme_Images/JWT_protected_API.PNG)](https://github.com/Groach5000/VideoGameStore)
 
 ## DB Diagram:
-[![](Readme_Images/DB_Diagram.PNG)](https://github.com/Groach5000/VideoGameStore)
+[![](Readme_Images/DB_Diagram_Updated_Mar_13_2023.PNG)](https://github.com/Groach5000/VideoGameStore)
 
 ### Installing
 Modifications needed to be made to files/folders:
