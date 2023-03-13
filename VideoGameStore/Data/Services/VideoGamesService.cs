@@ -141,10 +141,11 @@ namespace VideoGameStore.Data.Services
                     result = result.Where(n => n.Title.Contains(searchModel.Title, StringComparison.CurrentCultureIgnoreCase) ||
                                 n.Description.Contains(searchModel.Description, StringComparison.CurrentCultureIgnoreCase)
                                 ).ToList();
+                //For Min and Max Price, use the GetDiscount(VideoGame) method to filter games with discounts.
                 if (searchModel.MaxPrice.HasValue)
-                    result = result.Where(x => x.Price <= (int)searchModel.MaxPrice).ToList();
+                    result = result.Where(x => GetDiscount(x).Item2 <= (int)searchModel.MaxPrice).ToList();
                 if (searchModel.MinPrice.HasValue)
-                    result = result.Where(x => x.Price >= (int)searchModel.MinPrice).ToList();
+                    result = result.Where(x => GetDiscount(x).Item2 >= (int)searchModel.MinPrice).ToList();
                 if (searchModel.GameGenre.HasValue)
                     result = result.Where(x => x.GameGenres.Contains((GameGenre)searchModel.GameGenre)).ToList();
                 if (searchModel.GameAgeRating.HasValue)
