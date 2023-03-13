@@ -82,21 +82,13 @@
                                         {
                                             if (item.Discount != "" )
                                             {
-                                                 @*ToDo: need to return discount to cart.*@
                                                 <b class="discount_pct"> - @item.Discount</b>
                                                 <b class="discount_original_price">@item.Price.ToString("c")</b>
-                                                <a class="btn btn-success text-white" asp-controller="Orders"
-                                                    asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
-                                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @(((double)item.DiscountedPrice).ToString("c")))
-                                                </a>
                                             }
-                                            else
-                                            {
-                                                <a class="btn btn-success text-white" asp-controller="Orders"
-                                                    asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
-                                                    <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))
-                                                </a>
-                                            }
+                                            <a class="btn btn-success text-white" asp-controller="Orders"
+                                                asp-action="AddItemToShoppingCart" asp-route-id="@item.Id">
+                                                <i class="bi bi-cart-plus"></i> Add to Cart (Price @(((double)item.DiscountedPrice).ToString("c")))
+                                            </a>
                                         }
                                     </p>
                                 </div>

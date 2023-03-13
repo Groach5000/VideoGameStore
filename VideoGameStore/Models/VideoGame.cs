@@ -37,9 +37,6 @@ namespace VideoGameStore.Models
         public List<GameGenre> GameGenres { get; set; }
 
         //Releationships:
-
-        // ToDo,  implement ICollection instead of relying on the Publisher_VideoGame table.
-        //public ICollection<Publisher>? Publishers { get; set; }
         public List<Publisher_VideoGame>? Publishers_VideoGames { get; set; }
 
         [Required(ErrorMessage = "Age rating is required, use 'RP' if rating pending")]
