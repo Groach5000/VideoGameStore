@@ -9,6 +9,8 @@ namespace VideoGameStore.Models
 
         public VideoGame VideoGame { get; set; }
 
+        public double DiscountedPrice { get; set; }
+
         public int Amount { get; set; }
 
         public string ShoppingCartId { get; set; }

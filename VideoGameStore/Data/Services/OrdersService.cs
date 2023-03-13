@@ -42,7 +42,7 @@ namespace VideoGameStore.Data.Services
                 {
                     Amount = item.Amount,
                     VideoGameId = item.VideoGame.Id,
-                    Price = item.VideoGame.Price,
+                    Price = item.DiscountedPrice,
                     OrderId = order.Id
                 };
                 await _context.OrderItems.AddAsync(orderItem);

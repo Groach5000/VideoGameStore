@@ -54,7 +54,8 @@ namespace VideoGameStore.Controllers
 
             if (item != null)
             {
-                _shoppingCart.AddItemToCart(item);
+                var videoGameVM = _videoGamesService.GetVideoGameVM(item);
+                _shoppingCart.AddItemToCart(item, (double)videoGameVM.DiscountedPrice);
             }
 
             return RedirectToAction(nameof(ShoppingCart));

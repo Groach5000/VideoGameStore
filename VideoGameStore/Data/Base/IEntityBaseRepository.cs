@@ -19,9 +19,6 @@ namespace VideoGameStore.Data.Base
         Task AddAsync(T entity);
         Task UpdateAsync(int id, T entity);
         Task DeleteAsync(T deleteEntity);
-
-        Task<T> SearchAsync(T entity);
-
         public IQueryable<T> GetAllAsQueriable();
     }
 }

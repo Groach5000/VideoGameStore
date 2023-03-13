@@ -237,7 +237,6 @@ namespace VideoGameStore.Data.Services
             double discountedPrice = game.Price;
             if (game.Discounts.Count() > 0)
             {
-                int i = 0;
                 var gameDiscounts = game.Discounts.ToList();
                 foreach (var dis in gameDiscounts)
                 {

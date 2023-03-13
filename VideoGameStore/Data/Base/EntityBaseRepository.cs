@@ -56,11 +56,6 @@ namespace VideoGameStore.Data.Base
             return await query.FirstOrDefaultAsync(n => n.Id == id);
         }
 
-        public async Task<T> SearchAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task UpdateAsync(int id, T entity)
         {
             EntityEntry entityEntry = _context.Entry<T>(entity);

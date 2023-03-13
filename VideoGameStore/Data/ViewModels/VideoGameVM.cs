@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using RequiredAttribute = System.ComponentModel.DataAnnotations.RequiredAttribute;
 using System.Data.SqlTypes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VideoGameStore.Models
 {

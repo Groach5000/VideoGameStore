@@ -27,9 +27,9 @@ namespace VideoGameStore.Data.Cart
 
         public double GetShoppingCartTotal() => _context.ShoppingCartItems
             .Where(n => n.ShoppingCartId == ShoppingCartId)
-            .Select(n => n.Amount * n.VideoGame.Price).Sum();
+            .Select(n => n.Amount * n.DiscountedPrice).Sum();
 
-        public void AddItemToCart(VideoGame videoGame)
+        public void AddItemToCart(VideoGame videoGame, double discountedPrice)
         {
             var shoppingCartItem = _context.ShoppingCartItems
                 .FirstOrDefault(n => n.ShoppingCartId == ShoppingCartId &&
@@ -41,6 +41,7 @@ namespace VideoGameStore.Data.Cart
                 {
                     ShoppingCartId = ShoppingCartId,
                     VideoGame = videoGame,
+                    DiscountedPrice = discountedPrice,
                     Amount = 1,
                 };
                 _context.ShoppingCartItems.Add(shoppingCartItem);

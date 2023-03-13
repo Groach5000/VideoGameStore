@@ -94,7 +94,7 @@
                                     <b class="discount_original_price">@Model.Price.ToString("c")</b>
                                     <a class="btn btn-success text-white" asp-controller="Orders"
                                         asp-action="AddItemToShoppingCart" asp-route-id="@Model.Id">
-                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @Model.DiscountedPrice)
+                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @(((double)Model.DiscountedPrice).ToString("c")))
                                     </a>
                                 }
                                 else

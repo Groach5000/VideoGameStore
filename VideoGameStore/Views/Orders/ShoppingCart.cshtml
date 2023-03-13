@@ -14,9 +14,10 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Selected amount</th>
+                    <th>Selected Amount</th>
                     <th>Video Game</th>
-                    <th>Price</th>
+                    <th>Original Price</th>
+                    <th>Discount</th>
                     <th>Subtotal</th>
                     <th></th>
                 </tr>
@@ -28,7 +29,8 @@
                         <td class="align-middle">@item.Amount</td>
                         <td class="align-middle">@item.VideoGame.Title</td>
                         <td class="align-middle">@item.VideoGame.Price.ToString("c")</td>
-                        <td class="align-middle">@((item.Amount * item.VideoGame.Price).ToString("c"))</td>
+                        <td class="align-middle">@((item.DiscountedPrice - item.VideoGame.Price).ToString("c"))</td>
+                        <td class="align-middle">@((item.Amount * item.DiscountedPrice).ToString("c"))</td>
                         <td class="align-middle">
                             <a class="text-danger" asp-controller="Orders" asp-action="RemoveItemFromShoppingCart"
                            asp-route-id="@item.VideoGame.Id">
